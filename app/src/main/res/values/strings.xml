@@ -15,5 +15,14 @@
     <!--TODO (Step 4: Add all the string values here.)-->
     <!--START-->
     <string name="sign_in_description_text">Enter your name, email id and password, to register with us.</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
     <!--END-->
 </resources>
