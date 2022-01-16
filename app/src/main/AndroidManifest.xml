@@ -16,6 +16,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/IntroTheme" />
         <activity
+            android:name=".ui.signin.SignInActivity"
+            android:exported="false"
+            android:label="@string/title_activity_sign_up"
+            android:screenOrientation="portrait"
+            android:theme="@style/IntroTheme" />
+        <activity
             android:name=".ui.intro.IntroActivity"
             android:exported="false"
             android:screenOrientation="portrait"

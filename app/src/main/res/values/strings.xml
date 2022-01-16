@@ -14,7 +14,7 @@
 
     <!--TODO (Step 4: Add all the string values here.)-->
     <!--START-->
-    <string name="sign_in_description_text">Enter your name, email id and password, to register with us.</string>
+    <string name="sign_in_description_text">Enter your email id and password, to log in with us.</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
