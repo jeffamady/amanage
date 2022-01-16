@@ -10,8 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Amanage">
         <activity
+            android:name=".ui.intro.IntroActivity"
+            android:theme="@style/IntroTheme"
+            android:screenOrientation="fullSensor"
+            android:exported="false" />
+        <activity
             android:name=".SplashActivity"
             android:exported="true"
+            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
