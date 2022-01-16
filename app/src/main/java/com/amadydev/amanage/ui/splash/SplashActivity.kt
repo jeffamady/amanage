@@ -1,12 +1,11 @@
-package com.amadydev.amanage
+package com.amadydev.amanage.ui.splash
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.WindowManager
-import androidx.core.os.HandlerCompat.postDelayed
+import com.amadydev.amanage.R
 import com.amadydev.amanage.ui.intro.IntroActivity
 
 class SplashActivity : AppCompatActivity() {
@@ -16,6 +15,5 @@ class SplashActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, IntroActivity::class.java))
-        },2500)
-    }
+        },2500)    }
 }
