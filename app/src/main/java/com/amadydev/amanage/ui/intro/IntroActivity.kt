@@ -5,10 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.amadydev.amanage.R
 import com.amadydev.amanage.databinding.ActivityIntroBinding
+import com.amadydev.amanage.ui.BaseActivity
 import com.amadydev.amanage.ui.signin.SignInActivity
 import com.amadydev.amanage.ui.signup.SignUpActivity
 
-class IntroActivity : AppCompatActivity() {
+class IntroActivity : BaseActivity() {
     private lateinit var binding: ActivityIntroBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

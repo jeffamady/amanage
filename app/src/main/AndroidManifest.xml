@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Amanage">
         <activity
+            android:name=".ui.BaseActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.signup.SignUpActivity"
             android:exported="false"
             android:label="@string/title_activity_sign_up"

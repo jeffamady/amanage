@@ -29,11 +29,13 @@
     <dimen name="et_text_size">16sp</dimen>
     <dimen name="authentication_screen_til_marginTop">20dp</dimen>
 
-    <!--TODO (Step 5: Add all the dimen values here.)-->
-    <!--START-->
     <dimen name="authentication_screen_marginTop">60dp</dimen>
-    <!-- Default screen margins, per the Android Design guidelines. -->
+    <!--Progress Dialog-->
+    <dimen name="progressbar_size">50dp</dimen>
+    <dimen name="progress_text_size">18dp</dimen>
+    <dimen name="progress_padding">10dp</dimen>
+    <dimen name="progress_margin">10dp</dimen>
+    <!--Activities-->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <!--END-->
 </resources>

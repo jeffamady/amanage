@@ -12,8 +12,6 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
 
-    <!--TODO (Step 4: Add all the string values here.)-->
-    <!--START-->
     <string name="sign_in_description_text">Enter your email id and password, to log in with us.</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="prompt_email">Email</string>
@@ -24,5 +22,9 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <!--END-->
+
+    <!--    Progress bar-->
+    <string name="please_click_back">Please click back again to exit</string>
+    <string name="please_wait">Please wait…</string>
+
 </resources>
