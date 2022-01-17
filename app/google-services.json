@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "788853175126",
+    "project_id": "amanage-af913",
+    "storage_bucket": "amanage-af913.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788853175126:android:15538e1262b00a4e7ddcf7",
+        "android_client_info": {
+          "package_name": "com.amadydev.amanage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "788853175126-rbd2fh44c72firj9ois77no9r9msfa84.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFEpW_i55EPFlknMPtVNTuAlg3YVMODmM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "788853175126-rbd2fh44c72firj9ois77no9r9msfa84.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

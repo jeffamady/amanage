@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -59,9 +60,9 @@ open class BaseActivity : AppCompatActivity() {
         )
     }
 
-    fun showErrorSnackBar(message: String) {
+    fun showErrorSnackBar(v: View, message: String) {
         Snackbar.make(
-            findViewById(R.id.content),
+            v,
             message, Snackbar.LENGTH_LONG
         ).apply {
             view.setBackgroundColor(
