@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.amadydev.amanage.R
+import com.amadydev.amanage.firebase.FirestoreDB
+import com.amadydev.amanage.firebase.model.User
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,13 +47,12 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
         auth
             .createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
-                _signUpState.value = SignUpState.Loading(false)
                 when {
                     task.isSuccessful -> {
                         task.result.user?.let {
-                            _signUpState.value = SignUpState.Success(R.string.success)
+                            val user = User(it.uid, name, email)
+                            FirestoreDB().registerUser(this, user)
                         }
-                        auth.signOut()
                     }
                     else -> _signUpState.value =
                         task.exception?.let {
@@ -59,6 +60,12 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
                         }
                 }
             }
+    }
+
+    fun userRegisteredSuccess() {
+        _signUpState.value = SignUpState.Success(R.string.registered)
+        _signUpState.value = SignUpState.Loading(false)
+        auth.signOut()
     }
 
     sealed class SignUpState {
