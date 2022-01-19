@@ -1,11 +1,13 @@
 package com.amadydev.amanage.ui.signin
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.amadydev.amanage.R
 import com.amadydev.amanage.databinding.ActivitySignInBinding
 import com.amadydev.amanage.ui.BaseActivity
+import com.amadydev.amanage.ui.MainActivity
 import com.amadydev.amanage.utils.afterTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,12 +29,12 @@ class SignInActivity : BaseActivity() {
 
     private fun setObservers() {
         signInViewModel.signInState.observe(this) {
-            with(binding){
-                when(it){
+            with(binding) {
+                when (it) {
                     is SignInViewModel.SignInState.EmailError ->
                         etEmail.error = getString(it.resourceId)
-                        SignInViewModel.SignInState.Error ->
-                            showErrorSnackBar(root, getString(R.string.sorry))
+                    SignInViewModel.SignInState.Error ->
+                        showErrorSnackBar(root, getString(R.string.sorry))
                     is SignInViewModel.SignInState.IsFormValid ->
                         setListeners(it.isFormValid)
                     is SignInViewModel.SignInState.Loading ->
@@ -41,8 +43,10 @@ class SignInActivity : BaseActivity() {
                         showErrorSnackBar(root, it.message)
                     is SignInViewModel.SignInState.PasswordError ->
                         etPassword.error = getString(it.resourceId)
-                    is SignInViewModel.SignInState.Success ->
-                        Toast.makeText(this@SignInActivity, it.message, Toast.LENGTH_SHORT).show()
+                    is SignInViewModel.SignInState.Success -> {
+                        Toast.makeText(this@SignInActivity, it.resourceId, Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this@SignInActivity, MainActivity::class.java))
+                    }
                 }
             }
 
@@ -58,7 +62,7 @@ class SignInActivity : BaseActivity() {
                         binding.etPassword.text.toString()
                     )
                 }
-                else -> showErrorSnackBar(it, "You have to complete all")
+                else -> showErrorSnackBar(it, getString(R.string.form_error))
             }
 
         }
@@ -82,7 +86,7 @@ class SignInActivity : BaseActivity() {
     }
 
     private fun setupActionBar() {
-        setSupportActionBar(binding.toolbarSignUpActivity)
+        setSupportActionBar(binding.toolbarSignInActivity)
 
         val actionBar = supportActionBar
         if (actionBar != null) {
@@ -90,6 +94,6 @@ class SignInActivity : BaseActivity() {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_black_color_back_24dp)
         }
 
-        binding.toolbarSignUpActivity.setNavigationOnClickListener { onBackPressed() }
+        binding.toolbarSignInActivity.setNavigationOnClickListener { onBackPressed() }
     }
 }
