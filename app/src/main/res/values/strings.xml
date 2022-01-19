@@ -30,5 +30,7 @@
     <string name="please_click_back">Please click back again to exit</string>
     <string name="please_wait">Please wait…</string>
     <string name="sorry">Sorry, please try again</string>
+    <string name="form_error">You have to complete with correct values</string>
+    <string name="success">Success</string>
 
 </resources>
