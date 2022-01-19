@@ -67,11 +67,11 @@ class SignUpActivity : BaseActivity() {
                         setListeners(it.isFormValid)
                     }
                     SignUpViewModel.SignUpState.Error ->
-                        showErrorSnackBar(binding.root, getString(R.string.sorry))
+                        showErrorSnackBar(root, getString(R.string.sorry))
                     is SignUpViewModel.SignUpState.Loading ->
                         showProgressDialog(it.isLoading)
                     is SignUpViewModel.SignUpState.NonSuccess ->
-                        showErrorSnackBar(binding.root, it.message)
+                        showErrorSnackBar(root, it.message)
                     is SignUpViewModel.SignUpState.Success ->
                         Toast.makeText(this@SignUpActivity, it.message, Toast.LENGTH_SHORT).show()
                 }
