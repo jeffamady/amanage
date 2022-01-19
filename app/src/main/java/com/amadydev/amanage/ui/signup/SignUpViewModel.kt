@@ -1,13 +1,12 @@
 package com.amadydev.amanage.ui.signup
 
-import android.content.Context
 import android.text.TextUtils
 import android.util.Patterns
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.amadydev.amanage.R
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -21,30 +20,50 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
         when {
             TextUtils.isEmpty(name) -> {
                 _signUpState.value = SignUpState.NameError(R.string.invalid_name)
-                _signUpState.value = SignUpState.Success(false)
+                _signUpState.value = SignUpState.IsFormValid(false)
             }
             !isEmailValid(email) -> {
                 _signUpState.value = SignUpState.EmailError(R.string.invalid_email)
-                _signUpState.value = SignUpState.Success(false)
+                _signUpState.value = SignUpState.IsFormValid(false)
             }
             !isPasswordValid(password) -> {
                 _signUpState.value = SignUpState.PasswordError(R.string.invalid_password)
-                _signUpState.value = SignUpState.Success(false)
+                _signUpState.value = SignUpState.IsFormValid(false)
             }
             else -> {
-                _signUpState.value = SignUpState.Success(true)
+                _signUpState.value = SignUpState.IsFormValid(true)
             }
 
         }
 
     }
 
-    fun registerUser(context: Context, name: String, email: String, password: String) {
-        Toast.makeText(context, name, Toast.LENGTH_SHORT).show()
+    fun registerUser(name: String, email: String, password: String) {
+        _signUpState.value = SignUpState.Loading(true)
+        FirebaseAuth.getInstance()
+            .createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                _signUpState.value = SignUpState.Loading(false)
+                when {
+                    task.isSuccessful -> {
+                        task.result.user?.let { user ->
+                            _signUpState.value = SignUpState.Success("$name you have successfully registered " +
+                                        "with the email : ${user.email}")
+                        }
+                        FirebaseAuth.getInstance().signOut()
+                    }
+                    else -> _signUpState.value =
+                        task.exception?.let {
+                            it.message?.let { message -> SignUpState.NonSuccess(message) }
+                        }
+                }
+            }
     }
 
     sealed class SignUpState {
-        data class Success(val isFormValid: Boolean) : SignUpState()
+        data class Success(val message: String) : SignUpState()
+        data class NonSuccess(val message: String) : SignUpState()
+        data class IsFormValid(val isFormValid: Boolean) : SignUpState()
         data class NameError(val resourceId: Int) : SignUpState()
         data class EmailError(val resourceId: Int) : SignUpState()
         data class PasswordError(val resourceId: Int) : SignUpState()
