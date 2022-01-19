@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
 }
@@ -52,6 +53,8 @@ dependencies {
     // Firebase
     implementation 'com.google.firebase:firebase-analytics-ktx:20.0.2'
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
+    // Firestore
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.0.0'
     //hilt dependency injection
     implementation "com.google.dagger:hilt-android:2.38.1"
     kapt "com.google.dagger:hilt-android-compiler:2.38.1"
