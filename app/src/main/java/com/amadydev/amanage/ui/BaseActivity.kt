@@ -17,13 +17,8 @@ import com.google.firebase.auth.FirebaseAuth
 open class BaseActivity : AppCompatActivity() {
 
     private var doubleBackToExit = false
-
     private lateinit var mProgressDialog: Dialog
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_base)
-    }
 
     fun showProgressDialog(show: Boolean, text: String? = null) {
         when {
@@ -37,6 +32,7 @@ open class BaseActivity : AppCompatActivity() {
         }
 
     }
+
     fun getCurrentUserId(): String? =
         FirebaseAuth.getInstance().currentUser?.uid
 

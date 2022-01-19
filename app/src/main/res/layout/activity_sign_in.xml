@@ -8,7 +8,7 @@
     tools:context=".ui.signin.SignInActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_sign_up_activity"
+        android:id="@+id/toolbar_sign_in_activity"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,11 +33,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_sign_up_activity"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_sign_in_activity">
 
         <TextView
             android:layout_width="match_parent"

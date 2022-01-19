@@ -25,6 +25,12 @@
             android:textSize="@dimen/toolbar_title_text_size"
             android:textStyle="bold" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_task_image"
+            android:contentDescription="@string/image_contentDescription" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
@@ -32,12 +38,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_sign_up_activity"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintTop_toTopOf="@+id/toolbar_sign_up_activity">
 
         <TextView
             android:layout_width="match_parent"
@@ -67,10 +72,10 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/name"
-                    android:textColorHint="@color/white"
                     android:layout_marginStart="@dimen/authentication_screen_til_marginStartEnd"
-                    android:layout_marginEnd="@dimen/authentication_screen_til_marginStartEnd">
+                    android:layout_marginEnd="@dimen/authentication_screen_til_marginStartEnd"
+                    android:hint="@string/name"
+                    android:textColorHint="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_name"
@@ -83,11 +88,11 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/white"
                     android:layout_marginStart="@dimen/authentication_screen_til_marginStartEnd"
-                    android:hint="@string/email"
                     android:layout_marginTop="@dimen/authentication_screen_til_marginTop"
-                    android:layout_marginEnd="@dimen/authentication_screen_til_marginStartEnd">
+                    android:layout_marginEnd="@dimen/authentication_screen_til_marginStartEnd"
+                    android:hint="@string/email"
+                    android:textColorHint="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_email"
@@ -100,11 +105,11 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/white"
                     android:layout_marginStart="@dimen/authentication_screen_til_marginStartEnd"
                     android:layout_marginTop="@dimen/authentication_screen_til_marginTop"
                     android:layout_marginEnd="@dimen/authentication_screen_til_marginStartEnd"
-                    android:hint="@string/password">
+                    android:hint="@string/password"
+                    android:textColorHint="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_password"
