@@ -32,5 +32,6 @@
     <string name="sorry">Sorry, please try again</string>
     <string name="form_error">You have to complete with correct values</string>
     <string name="success">Success</string>
+    <string name="registered">User registered successfully</string>
 
 </resources>
