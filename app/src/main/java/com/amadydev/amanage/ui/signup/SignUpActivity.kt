@@ -1,6 +1,7 @@
 package com.amadydev.amanage.ui.signup
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.amadydev.amanage.R
 import com.amadydev.amanage.databinding.ActivitySignUpBinding
@@ -29,13 +30,12 @@ class SignUpActivity : BaseActivity() {
             when {
                 isFormValid -> {
                     signUpViewModel.registerUser(
-                        this,
                         binding.etName.text.toString(),
                         binding.etEmail.text.toString(),
                         binding.etPassword.text.toString()
                     )
                 }
-                else ->  showErrorSnackBar(it, "You have to complete all")
+                else -> showErrorSnackBar(it, "You have to complete all")
             }
 
         }
@@ -63,11 +63,17 @@ class SignUpActivity : BaseActivity() {
                         etEmail.error = getString(it.resourceId)
                     is SignUpViewModel.SignUpState.PasswordError ->
                         etPassword.error = getString(it.resourceId)
-                    is SignUpViewModel.SignUpState.Success -> {
+                    is SignUpViewModel.SignUpState.IsFormValid -> {
                         setListeners(it.isFormValid)
                     }
-                    is SignUpViewModel.SignUpState.Error -> {}
-                    is SignUpViewModel.SignUpState.Loading -> {}
+                    SignUpViewModel.SignUpState.Error ->
+                        showErrorSnackBar(binding.root, getString(R.string.sorry))
+                    is SignUpViewModel.SignUpState.Loading ->
+                        showProgressDialog(it.isLoading)
+                    is SignUpViewModel.SignUpState.NonSuccess ->
+                        showErrorSnackBar(binding.root, it.message)
+                    is SignUpViewModel.SignUpState.Success ->
+                        Toast.makeText(this@SignUpActivity, it.message, Toast.LENGTH_SHORT).show()
                 }
             }
         }
