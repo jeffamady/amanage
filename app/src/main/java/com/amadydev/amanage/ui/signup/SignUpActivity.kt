@@ -1,11 +1,13 @@
 package com.amadydev.amanage.ui.signup
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.amadydev.amanage.R
 import com.amadydev.amanage.databinding.ActivitySignUpBinding
 import com.amadydev.amanage.ui.BaseActivity
+import com.amadydev.amanage.ui.signin.SignInActivity
 import com.amadydev.amanage.utils.afterTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,7 +37,7 @@ class SignUpActivity : BaseActivity() {
                         binding.etPassword.text.toString()
                     )
                 }
-                else -> showErrorSnackBar(it, "You have to complete all")
+                else -> showErrorSnackBar(it, getString(R.string.form_error))
             }
 
         }
@@ -72,8 +74,11 @@ class SignUpActivity : BaseActivity() {
                         showProgressDialog(it.isLoading)
                     is SignUpViewModel.SignUpState.NonSuccess ->
                         showErrorSnackBar(root, it.message)
-                    is SignUpViewModel.SignUpState.Success ->
-                        Toast.makeText(this@SignUpActivity, it.message, Toast.LENGTH_SHORT).show()
+                    is SignUpViewModel.SignUpState.Success -> {
+                        Toast.makeText(this@SignUpActivity, it.resourceId, Toast.LENGTH_SHORT)
+                            .show()
+                        startActivity(Intent(this@SignUpActivity, SignInActivity::class.java))
+                    }
                 }
             }
         }
