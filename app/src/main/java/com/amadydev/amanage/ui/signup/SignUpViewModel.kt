@@ -6,13 +6,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.amadydev.amanage.R
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor() : ViewModel() {
+    private val auth = Firebase.auth
     private val _signUpState = MutableLiveData<SignUpState>()
     val signUpState: LiveData<SignUpState> = _signUpState
 
@@ -38,19 +40,18 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
 
     }
 
-    fun registerUser(name: String, email: String, password: String) {
+    fun registerUser(email: String, password: String) {
         _signUpState.value = SignUpState.Loading(true)
-        FirebaseAuth.getInstance()
+        auth
             .createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 _signUpState.value = SignUpState.Loading(false)
                 when {
                     task.isSuccessful -> {
                         task.result.user?.let { user ->
-                            _signUpState.value = SignUpState.Success("$name you have successfully registered " +
-                                        "with the email : ${user.email}")
+                            _signUpState.value = SignUpState.Success(R.string.success)
                         }
-                        FirebaseAuth.getInstance().signOut()
+                        auth.signOut()
                     }
                     else -> _signUpState.value =
                         task.exception?.let {
@@ -61,7 +62,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
     }
 
     sealed class SignUpState {
-        data class Success(val message: String) : SignUpState()
+        data class Success(val resourceId: Int) : SignUpState()
         data class NonSuccess(val message: String) : SignUpState()
         data class IsFormValid(val isFormValid: Boolean) : SignUpState()
         data class NameError(val resourceId: Int) : SignUpState()
