@@ -40,7 +40,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
 
     }
 
-    fun registerUser(email: String, password: String) {
+    fun registerUser(name: String, email: String, password: String) {
         _signUpState.value = SignUpState.Loading(true)
         auth
             .createUserWithEmailAndPassword(email, password)
@@ -48,7 +48,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
                 _signUpState.value = SignUpState.Loading(false)
                 when {
                     task.isSuccessful -> {
-                        task.result.user?.let { user ->
+                        task.result.user?.let {
                             _signUpState.value = SignUpState.Success(R.string.success)
                         }
                         auth.signOut()
