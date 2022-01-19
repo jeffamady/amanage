@@ -17,7 +17,7 @@ class SignInViewModel : ViewModel() {
     val signInState : LiveData<SignInState> = _signInState
 
     sealed class SignInState {
-        data class Success(val message: String) : SignInState()
+        data class Success(val resourceId: Int) : SignInState()
         data class NonSuccess(val message: String) : SignInState()
         data class Loading(val isLoading: Boolean) : SignInState()
         data class IsFormValid(val isFormValid: Boolean) : SignInState()
@@ -53,9 +53,8 @@ class SignInViewModel : ViewModel() {
                     task.isSuccessful -> {
                         auth.currentUser?.let { user ->
                             _signInState.value =
-                                SignInState.Success("Welcome ${user.email}")
+                                SignInState.Success(R.string.success)
                         }
-                        auth.signOut()
                     }
                     else -> _signInState.value =
                         task.exception?.let {
