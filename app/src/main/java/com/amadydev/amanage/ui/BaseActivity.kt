@@ -11,7 +11,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.amadydev.amanage.R
-import com.amadydev.amanage.ui.intro.IntroActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
@@ -26,18 +25,18 @@ open class BaseActivity : AppCompatActivity() {
         setContentView(R.layout.activity_base)
     }
 
-    fun showProgressDialog(text: String) {
-        mProgressDialog =
-            Dialog(this).apply {
-                setContentView(R.layout.dialog_progress)
-                findViewById<TextView>(R.id.tv_progress).text = text
-                show()
-            }
+    fun showProgressDialog(show: Boolean, text: String? = null) {
+        when {
+            show -> mProgressDialog =
+                Dialog(this).apply {
+                    setContentView(R.layout.dialog_progress)
+                    text?.let { findViewById<TextView>(R.id.tv_progress).text = it }
+                    show()
+                }
+            !show -> mProgressDialog.dismiss()
+        }
+
     }
-
-    fun hideProgressDialog() =
-        mProgressDialog.dismiss()
-
     fun getCurrentUserId(): String? =
         FirebaseAuth.getInstance().currentUser?.uid
 
