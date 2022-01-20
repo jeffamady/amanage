@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:text="@string/please_wait"
         android:textSize="@dimen/lets_get_started_text_size"
+        android:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

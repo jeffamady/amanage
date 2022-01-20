@@ -45,7 +45,6 @@
         <activity
             android:name=".ui.home.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ThemeHome"
             android:exported="true" />
     </application>
 
