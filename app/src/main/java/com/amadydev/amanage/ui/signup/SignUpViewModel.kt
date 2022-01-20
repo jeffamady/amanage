@@ -54,18 +54,30 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
                             FirestoreDB().registerUser(this, user)
                         }
                     }
-                    else -> _signUpState.value =
-                        task.exception?.let {
-                            it.message?.let { message -> SignUpState.NonSuccess(message) }
-                        }
+                    else -> {
+                        _signUpState.value =
+                            SignUpState.Loading(false)
+                        _signUpState.value =
+                            task.exception?.let {
+                                it.message?.let { message -> SignUpState.NonSuccess(message) }
+                            }
+                    }
                 }
             }
     }
 
-    fun userRegisteredSuccess() {
-        _signUpState.value = SignUpState.Success(R.string.registered)
+    fun userRegisteredSuccess(isSuccess: Boolean, message: String = "") {
         _signUpState.value = SignUpState.Loading(false)
-        auth.signOut()
+        when {
+            isSuccess -> {
+                _signUpState.value = SignUpState.Success(R.string.registered)
+                auth.signOut()
+            }
+            !isSuccess -> {
+                _signUpState.value = SignUpState.NonSuccess(message)
+            }
+        }
+
     }
 
     sealed class SignUpState {

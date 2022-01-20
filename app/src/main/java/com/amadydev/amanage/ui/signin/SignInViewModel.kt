@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.amadydev.amanage.R
+import com.amadydev.amanage.firebase.FirestoreDB
+import com.amadydev.amanage.firebase.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -14,7 +16,7 @@ class SignInViewModel : ViewModel() {
     private var auth: FirebaseAuth = Firebase.auth
 
     private val _signInState = MutableLiveData<SignInState>()
-    val signInState : LiveData<SignInState> = _signInState
+    val signInState: LiveData<SignInState> = _signInState
 
     sealed class SignInState {
         data class Success(val resourceId: Int) : SignInState()
@@ -44,22 +46,23 @@ class SignInViewModel : ViewModel() {
 
     }
 
-    fun loginUser (email: String, password: String) {
+    fun loginUser(email: String, password: String) {
         _signInState.value = SignInState.Loading(true)
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
-                _signInState.value = SignInState.Loading(false)
                 when {
                     task.isSuccessful -> {
-                        auth.currentUser?.let { user ->
-                            _signInState.value =
-                                SignInState.Success(R.string.success)
-                        }
+                        FirestoreDB().loginUser(this)
                     }
-                    else -> _signInState.value =
-                        task.exception?.let {
-                            it.message?.let { message -> SignInState.NonSuccess(message) }
-                        }
+                    else -> {
+                        _signInState.value =
+                            SignInState.Loading(false)
+
+                        _signInState.value =
+                            task.exception?.let {
+                                it.message?.let { message -> SignInState.NonSuccess(message) }
+                            }
+                    }
                 }
 
             }
@@ -73,4 +76,19 @@ class SignInViewModel : ViewModel() {
     private fun isPasswordValid(password: String) =
         Pattern.compile("^(?=.*[0-9])(?=.*[A-Z])(?=\\S+\$).{8,}")
             .matcher(password).matches()
+
+    fun loginSuccess(isSuccess: Boolean, loggedUser: User = User()) {
+        _signInState.value = SignInState.Loading(false)
+        when {
+            isSuccess -> {
+                _signInState.value =
+                    SignInState.Success(R.string.success)
+            }
+            !isSuccess -> {
+                _signInState.value = SignInState.Error
+            }
+
+        }
+
+    }
 }
