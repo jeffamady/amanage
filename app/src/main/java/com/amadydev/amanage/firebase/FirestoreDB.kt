@@ -37,6 +37,11 @@ class FirestoreDB {
             }
     }
 
-    private fun getCurrentUserId(): String =
-        Firebase.auth.currentUser!!.uid
+    fun getCurrentUserId(): String {
+        var currentUserId = ""
+        Firebase.auth.currentUser?.let {
+            currentUserId = it.uid
+        }
+        return currentUserId
+    }
 }
