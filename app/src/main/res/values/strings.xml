@@ -34,4 +34,7 @@
     <string name="success">Success</string>
     <string name="registered">User registered successfully</string>
 
+    <!--    Home Activity-->
+    <string name="nav_my_profile">My Profile</string>
+    <string name="nav_sign_out">Sign Out</string>
 </resources>

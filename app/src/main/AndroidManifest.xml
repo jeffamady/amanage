@@ -18,24 +18,24 @@
             android:exported="false"
             android:label="@string/title_activity_sign_up"
             android:screenOrientation="portrait"
-            android:theme="@style/IntroTheme" />
+            android:theme="@style/Theme.IntroTheme" />
         <activity
             android:name=".ui.signin.SignInActivity"
             android:exported="false"
             android:label="@string/title_activity_sign_up"
             android:screenOrientation="portrait"
-            android:theme="@style/IntroTheme" />
+            android:theme="@style/Theme.IntroTheme" />
         <activity
             android:name=".ui.intro.IntroActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/IntroTheme" />
+            android:theme="@style/Theme.IntroTheme" />
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/Theme.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.HomeActivity"
             android:exported="true" />
     </application>
 

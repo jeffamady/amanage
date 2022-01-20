@@ -13,14 +13,18 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-    
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+
+    <style name="Theme.SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/colorSplashBackground</item>
     </style>
 
-    <style name="IntroTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="Theme.IntroTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@drawable/intro_background</item>
     </style>
+
+    <style name="Theme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

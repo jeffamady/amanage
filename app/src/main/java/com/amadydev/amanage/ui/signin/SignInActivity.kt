@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import com.amadydev.amanage.R
 import com.amadydev.amanage.databinding.ActivitySignInBinding
 import com.amadydev.amanage.ui.BaseActivity
-import com.amadydev.amanage.ui.MainActivity
+import com.amadydev.amanage.ui.HomeActivity
 import com.amadydev.amanage.ui.signin.SignInViewModel.SignInState.*
 import com.amadydev.amanage.utils.afterTextChanged
 
@@ -46,7 +46,7 @@ class SignInActivity : BaseActivity() {
                     is Success -> {
                         Toast.makeText(this@SignInActivity, it.resourceId, Toast.LENGTH_SHORT)
                             .show()
-                        startActivity(Intent(this@SignInActivity, MainActivity::class.java))
+                        startActivity(Intent(this@SignInActivity, HomeActivity::class.java))
                         finish()
                     }
                 }

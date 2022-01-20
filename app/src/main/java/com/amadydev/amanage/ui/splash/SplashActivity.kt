@@ -7,7 +7,7 @@ import android.os.Looper
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.amadydev.amanage.R
-import com.amadydev.amanage.ui.MainActivity
+import com.amadydev.amanage.ui.HomeActivity
 import com.amadydev.amanage.ui.intro.IntroActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,7 +23,7 @@ class SplashActivity : AppCompatActivity() {
             splashViewModel.splashState.observe(this) {
                 when (it) {
                     is SplashViewModel.SplashState.Logged ->
-                        startActivity(Intent(this, MainActivity::class.java))
+                        startActivity(Intent(this, HomeActivity::class.java))
                     is SplashViewModel.SplashState.NotLogged ->
                         startActivity(Intent(this, IntroActivity::class.java))
                 }
