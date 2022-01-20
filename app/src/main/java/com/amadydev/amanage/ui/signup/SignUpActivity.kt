@@ -8,6 +8,7 @@ import com.amadydev.amanage.R
 import com.amadydev.amanage.databinding.ActivitySignUpBinding
 import com.amadydev.amanage.ui.BaseActivity
 import com.amadydev.amanage.ui.signin.SignInActivity
+import com.amadydev.amanage.ui.signup.SignUpViewModel.SignUpState.*
 import com.amadydev.amanage.utils.afterTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -59,25 +60,26 @@ class SignUpActivity : BaseActivity() {
         signUpViewModel.signUpState.observe(this) {
             with(binding) {
                 when (it) {
-                    is SignUpViewModel.SignUpState.NameError ->
+                    is NameError ->
                         etName.error = getString(it.resourceId)
-                    is SignUpViewModel.SignUpState.EmailError ->
+                    is EmailError ->
                         etEmail.error = getString(it.resourceId)
-                    is SignUpViewModel.SignUpState.PasswordError ->
+                    is PasswordError ->
                         etPassword.error = getString(it.resourceId)
-                    is SignUpViewModel.SignUpState.IsFormValid -> {
+                    is IsFormValid -> {
                         setListeners(it.isFormValid)
                     }
-                    SignUpViewModel.SignUpState.Error ->
+                    Error ->
                         showErrorSnackBar(root, getString(R.string.sorry))
-                    is SignUpViewModel.SignUpState.Loading ->
+                    is Loading ->
                         showProgressDialog(it.isLoading)
-                    is SignUpViewModel.SignUpState.NonSuccess ->
+                    is NonSuccess ->
                         showErrorSnackBar(root, it.message)
-                    is SignUpViewModel.SignUpState.Success -> {
+                    is Success -> {
                         Toast.makeText(this@SignUpActivity, it.resourceId, Toast.LENGTH_SHORT)
                             .show()
                         startActivity(Intent(this@SignUpActivity, SignInActivity::class.java))
+                        finish()
                     }
                 }
             }

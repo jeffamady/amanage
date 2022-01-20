@@ -8,10 +8,10 @@ import com.amadydev.amanage.R
 import com.amadydev.amanage.databinding.ActivitySignInBinding
 import com.amadydev.amanage.ui.BaseActivity
 import com.amadydev.amanage.ui.MainActivity
+import com.amadydev.amanage.ui.signin.SignInViewModel.SignInState.*
 import com.amadydev.amanage.utils.afterTextChanged
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
+
 class SignInActivity : BaseActivity() {
     private lateinit var binding: ActivitySignInBinding
     private val signInViewModel: SignInViewModel by viewModels()
@@ -31,21 +31,23 @@ class SignInActivity : BaseActivity() {
         signInViewModel.signInState.observe(this) {
             with(binding) {
                 when (it) {
-                    is SignInViewModel.SignInState.EmailError ->
+                    is EmailError ->
                         etEmail.error = getString(it.resourceId)
-                    SignInViewModel.SignInState.Error ->
+                    Error ->
                         showErrorSnackBar(root, getString(R.string.sorry))
-                    is SignInViewModel.SignInState.IsFormValid ->
+                    is IsFormValid ->
                         setListeners(it.isFormValid)
-                    is SignInViewModel.SignInState.Loading ->
+                    is Loading ->
                         showProgressDialog(it.isLoading)
-                    is SignInViewModel.SignInState.NonSuccess ->
+                    is NonSuccess ->
                         showErrorSnackBar(root, it.message)
-                    is SignInViewModel.SignInState.PasswordError ->
+                    is PasswordError ->
                         etPassword.error = getString(it.resourceId)
-                    is SignInViewModel.SignInState.Success -> {
-                        Toast.makeText(this@SignInActivity, it.resourceId, Toast.LENGTH_SHORT).show()
+                    is Success -> {
+                        Toast.makeText(this@SignInActivity, it.resourceId, Toast.LENGTH_SHORT)
+                            .show()
                         startActivity(Intent(this@SignInActivity, MainActivity::class.java))
+                        finish()
                     }
                 }
             }
@@ -62,7 +64,8 @@ class SignInActivity : BaseActivity() {
                         binding.etPassword.text.toString()
                     )
                 }
-                else -> showErrorSnackBar(it, getString(R.string.form_error))
+                else ->
+                    showErrorSnackBar(it, getString(R.string.form_error))
             }
 
         }
