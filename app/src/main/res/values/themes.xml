@@ -10,7 +10,8 @@
         <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/colorPrimaryVariant</item>
+        <item name="android:progressTint">@color/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -23,6 +24,8 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@drawable/intro_background</item>
     </style>
+
+    <style name="ThemeHome" parent="Theme.AppCompat.NoActionBar" />
 
     <style name="Theme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

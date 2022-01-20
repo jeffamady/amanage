@@ -2,9 +2,9 @@
 <resources>
     <color name="purple_200">#CA3C0F</color>
     <color name="colorPrimary">#FF5722</color>
-    <color name="colorPrimaryVariant">#FF5722</color>
+    <color name="colorPrimaryVariant">#FF8D69</color>
     <color name="colorSecondary">#FF5722</color>
-    <color name="colorSecondaryVariant">#FF5722</color>
+    <color name="colorSecondaryVariant">#FF8D69</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 

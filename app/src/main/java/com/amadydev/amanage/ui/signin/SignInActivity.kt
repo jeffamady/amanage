@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import com.amadydev.amanage.R
 import com.amadydev.amanage.databinding.ActivitySignInBinding
 import com.amadydev.amanage.ui.BaseActivity
-import com.amadydev.amanage.ui.HomeActivity
+import com.amadydev.amanage.ui.home.HomeActivity
 import com.amadydev.amanage.ui.signin.SignInViewModel.SignInState.*
 import com.amadydev.amanage.utils.afterTextChanged
 

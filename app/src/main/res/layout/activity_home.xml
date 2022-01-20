@@ -9,6 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <include
+        android:id="@+id/i_nav"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         layout="@layout/app_bar_home"/>

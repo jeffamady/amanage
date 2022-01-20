@@ -2,8 +2,8 @@
     <string name="app_name">Amanage</string>
 
     <string name="image_contentDescription">image</string>
-    <string name="let_s_get_started_text">Let\'s Get started</string>
-    <string name="intro_text_description">Collaborate and Plan Together Across Multiple Devices on Projemanag’s Minimalist Interface.</string>
+    <string name="let_s_get_started_text">Let\'s Get Started</string>
+    <string name="intro_text_description">Collaborate and Plan Together Across Multiple Devices on Amanage for free.</string>
     <string name="sign_in">SIGN IN</string>
     <string name="sign_up">SIGN UP</string>
     <!--sign up / in-->
@@ -11,7 +11,7 @@
     <string name="name">Name</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
-    <string name="invalid_password">Password must be at least 8 characters, an uppercase and 1 number</string>
+    <string name="invalid_password">Password must have at least 8 characters, an uppercase and 1 number</string>
     <string name="invalid_name">Please enter a name</string>
     <string name="invalid_email">Not a valid email</string>
 

@@ -7,7 +7,7 @@ import android.os.Looper
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.amadydev.amanage.R
-import com.amadydev.amanage.ui.HomeActivity
+import com.amadydev.amanage.ui.home.HomeActivity
 import com.amadydev.amanage.ui.intro.IntroActivity
 import dagger.hilt.android.AndroidEntryPoint
 
