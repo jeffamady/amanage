@@ -6,91 +6,101 @@
     android:layout_height="match_parent"
     tools:context=".ui.intro.IntroActivity">
 
-    <TextView
-        android:id="@+id/tv_app_name_intro"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/intro_screen_title_text_marginTop"
-        android:text="@string/app_name"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/intro_screen_title_text_size"
-        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/tv_app_name_intro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/intro_screen_title_text_marginTop"
+            android:text="@string/app_name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/intro_screen_title_text_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/image_contentDescription"
-        android:src="@drawable/ic_task_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_app_name_intro" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/image_contentDescription"
+            android:src="@drawable/ic_task_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_app_name_intro" />
 
-    <TextView
-        android:id="@+id/tv_get_started"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/lets_get_started_text_marginTop"
-        android:text="@string/let_s_get_started_text"
-        android:textColor="@color/primaryTextColor"
-        android:textSize="@dimen/lets_get_started_text_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        <TextView
+            android:id="@+id/tv_get_started"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lets_get_started_text_marginTop"
+            android:text="@string/let_s_get_started_text"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/lets_get_started_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <TextView
-        android:id="@+id/tv_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/intro_text_marginStartEnd"
-        android:layout_marginTop="@dimen/intro_text_marginTop"
-        android:layout_marginEnd="@dimen/intro_text_marginStartEnd"
-        android:gravity="center"
-        android:lineSpacingExtra="@dimen/intro_text_line_spacing_extra"
-        android:text="@string/intro_text_description"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="@dimen/intro_text_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_get_started" />
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/intro_text_marginStartEnd"
+            android:layout_marginTop="@dimen/intro_text_marginTop"
+            android:layout_marginEnd="@dimen/intro_text_marginStartEnd"
+            android:gravity="center"
+            android:lineSpacingExtra="@dimen/intro_text_line_spacing_extra"
+            android:text="@string/intro_text_description"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="@dimen/intro_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_get_started" />
 
-    <Button
-        android:id="@+id/btn_sign_in"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/btn_marginStartEnd"
-        android:layout_marginTop="@dimen/intro_screen_sign_in_btn_marginTop"
-        android:layout_marginEnd="@dimen/btn_marginStartEnd"
-        android:background="@drawable/button_rounded"
-        android:foreground="?attr/selectableItemBackground"
-        android:paddingTop="@dimen/btn_paddingTopBottom"
-        android:paddingBottom="@dimen/btn_paddingTopBottom"
-        android:text="@string/sign_in"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/btn_text_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_description" />
+        <Button
+            android:id="@+id/btn_sign_in"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/btn_marginStartEnd"
+            android:layout_marginTop="@dimen/intro_screen_sign_in_btn_marginTop"
+            android:layout_marginEnd="@dimen/btn_marginStartEnd"
+            android:background="@drawable/button_rounded"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingTop="@dimen/btn_paddingTopBottom"
+            android:paddingBottom="@dimen/btn_paddingTopBottom"
+            android:text="@string/sign_in"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/btn_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_description" />
 
-    <Button
-        android:id="@+id/btn_sign_up"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/btn_marginStartEnd"
-        android:layout_marginTop="@dimen/intro_screen_sign_up_btn_marginTop"
-        android:layout_marginEnd="@dimen/btn_marginStartEnd"
-        android:background="@drawable/button_rounded_white"
-        android:foreground="?attr/selectableItemBackground"
-        android:paddingTop="@dimen/btn_paddingTopBottom"
-        android:paddingBottom="@dimen/btn_paddingTopBottom"
-        android:text="@string/sign_up"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/btn_text_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_sign_in" />
+        <Button
+            android:id="@+id/btn_sign_up"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/btn_marginStartEnd"
+            android:layout_marginStart="@dimen/btn_marginStartEnd"
+            android:layout_marginTop="@dimen/intro_screen_sign_up_btn_marginTop"
+            android:layout_marginEnd="@dimen/btn_marginStartEnd"
+            android:background="@drawable/button_rounded_white"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingTop="@dimen/btn_paddingTopBottom"
+            android:paddingBottom="@dimen/btn_paddingTopBottom"
+            android:text="@string/sign_up"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/btn_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_sign_in" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
