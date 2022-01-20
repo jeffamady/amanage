@@ -1,4 +1,4 @@
-package com.amadydev.amanage.firebase.model
+package com.amadydev.amanage.data.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

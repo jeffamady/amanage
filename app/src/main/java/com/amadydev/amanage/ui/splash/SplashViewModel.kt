@@ -3,7 +3,7 @@ package com.amadydev.amanage.ui.splash
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.amadydev.amanage.firebase.FirestoreDB
+import com.amadydev.amanage.data.firebase.FirestoreDB
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

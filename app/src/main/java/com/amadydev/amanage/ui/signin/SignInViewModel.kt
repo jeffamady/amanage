@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.amadydev.amanage.R
-import com.amadydev.amanage.firebase.FirestoreDB
-import com.amadydev.amanage.firebase.model.User
+import com.amadydev.amanage.data.firebase.FirestoreDB
+import com.amadydev.amanage.data.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

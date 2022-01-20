@@ -1,6 +1,8 @@
-package com.amadydev.amanage.firebase
+package com.amadydev.amanage.data.firebase
 
-import com.amadydev.amanage.firebase.model.User
+import androidx.lifecycle.ViewModel
+import com.amadydev.amanage.data.model.User
+import com.amadydev.amanage.ui.home.HomeViewModel
 import com.amadydev.amanage.ui.signin.SignInViewModel
 import com.amadydev.amanage.ui.signup.SignUpViewModel
 import com.amadydev.amanage.utils.Constants.USERS
@@ -23,17 +25,26 @@ class FirestoreDB {
             }
     }
 
-    fun loginUser(viewModel: SignInViewModel) {
+    fun loginUser(viewModel: ViewModel) {
         db.collection(USERS)
             .document(getCurrentUserId())
             .get()
             .addOnSuccessListener { document ->
                 document.toObject(User::class.java)?.let { loggedUser ->
-                    viewModel.loginSuccess(true, loggedUser)
+                    when (viewModel) {
+                        is SignInViewModel -> {
+                            viewModel.loginSuccess(true, loggedUser)
+                        }
+                        is HomeViewModel -> {
+                            viewModel.updateNavUser(loggedUser)
+                        }
+                    }
+
                 }
             }
             .addOnFailureListener {
-                viewModel.loginSuccess(false)
+                val vm = viewModel as SignInViewModel
+                vm.loginSuccess(false)
             }
     }
 
