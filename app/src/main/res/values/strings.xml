@@ -37,4 +37,9 @@
     <!--    Home Activity-->
     <string name="nav_my_profile">My Profile</string>
     <string name="nav_sign_out">Sign Out</string>
+    <!--My Profile-->
+    <string name="update">UPDATE</string>
+    <string name="my_profile_title">My Profile</string>
+    <string name="phone_number">Phone Number</string>
+
 </resources>

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.GravityCompat
 import com.amadydev.amanage.R
@@ -13,6 +12,7 @@ import com.amadydev.amanage.data.model.User
 import com.amadydev.amanage.databinding.ActivityHomeBinding
 import com.amadydev.amanage.ui.BaseActivity
 import com.amadydev.amanage.ui.intro.IntroActivity
+import com.amadydev.amanage.ui.myprofile.MyProfileActivity
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
@@ -93,7 +93,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_my_profile -> {
-                Toast.makeText(this, "My profile", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, MyProfileActivity::class.java))
             }
             R.id.nav_sign_out -> {
                 Firebase.auth.signOut()

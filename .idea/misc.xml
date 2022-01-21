@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/drawable/button_rounded.xml" value="0.2851851851851852" />
         <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/drawable/button_rounded_white.xml" value="0.221875" />
         <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/drawable/ic_black_color_back_24dp.xml" value="0.2851851851851852" />
@@ -27,11 +28,13 @@
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/activity_intro.xml" value="0.3393782383419689" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1484375" />
+        <entry key="app/src/main/res/layout/activity_my_profile.xml" value="0.14" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.1484375" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1484375" />
         <entry key="app/src/main/res/layout/app_bar_home.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/content_home.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/dialog_progress.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_my_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/nav_header_home.xml" value="0.33" />
         <entry key="app/src/main/res/menu/activity_home_drawer.xml" value="0.33" />
       </map>

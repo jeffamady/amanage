@@ -11,6 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Amanage">
         <activity
+            android:name=".ui.myprofile.MyProfileActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" />
+        <activity
             android:name=".ui.BaseActivity"
             android:exported="false" />
         <activity
@@ -44,8 +48,8 @@
         </activity>
         <activity
             android:name=".ui.home.HomeActivity"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
