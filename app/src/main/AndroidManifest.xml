@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.amadydev.amanage">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".AmanageApp"
         android:allowBackup="true"
@@ -12,8 +16,8 @@
         android:theme="@style/Theme.Amanage">
         <activity
             android:name=".ui.myprofile.MyProfileActivity"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.BaseActivity"
             android:exported="false" />

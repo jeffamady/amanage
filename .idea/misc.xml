@@ -33,8 +33,9 @@
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1484375" />
         <entry key="app/src/main/res/layout/app_bar_home.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/content_home.xml" value="0.20104166666666667" />
-        <entry key="app/src/main/res/layout/dialog_progress.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/dialog_progress.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_my_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/layout_loading.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/nav_header_home.xml" value="0.33" />
         <entry key="app/src/main/res/menu/activity_home_drawer.xml" value="0.33" />
       </map>

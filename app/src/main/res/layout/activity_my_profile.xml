@@ -38,7 +38,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
+        <include
+            android:id="@+id/i_progress"
+            layout="@layout/dialog_progress"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_user_details"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/card_view_layout_content_padding">
