@@ -5,8 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.amadydev.amanage.data.firebase.FirestoreDB
 import com.amadydev.amanage.data.model.User
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor()  : ViewModel() {
     private val _homeState = MutableLiveData<HomeState>()
     val homeState : LiveData<HomeState> = _homeState
 
@@ -15,7 +18,7 @@ class HomeViewModel : ViewModel() {
     }
 
     fun getUser() {
-        FirestoreDB().loginUser(this)
+        FirestoreDB().loadUserData(this)
     }
 
     sealed class HomeState {

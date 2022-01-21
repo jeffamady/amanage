@@ -3,6 +3,7 @@ package com.amadydev.amanage.data.firebase
 import androidx.lifecycle.ViewModel
 import com.amadydev.amanage.data.model.User
 import com.amadydev.amanage.ui.home.HomeViewModel
+import com.amadydev.amanage.ui.myprofile.MyProfileViewModel
 import com.amadydev.amanage.ui.signin.SignInViewModel
 import com.amadydev.amanage.ui.signup.SignUpViewModel
 import com.amadydev.amanage.utils.Constants.USERS
@@ -25,7 +26,7 @@ class FirestoreDB {
             }
     }
 
-    fun loginUser(viewModel: ViewModel) {
+    fun loadUserData(viewModel: ViewModel) {
         db.collection(USERS)
             .document(getCurrentUserId())
             .get()
@@ -33,10 +34,13 @@ class FirestoreDB {
                 document.toObject(User::class.java)?.let { loggedUser ->
                     when (viewModel) {
                         is SignInViewModel -> {
-                            viewModel.loginSuccess(true, loggedUser)
+                            viewModel.loginSuccess(true)
                         }
                         is HomeViewModel -> {
                             viewModel.updateNavUser(loggedUser)
+                        }
+                        is MyProfileViewModel -> {
+                            viewModel.updateProfileUser(loggedUser)
                         }
                     }
 

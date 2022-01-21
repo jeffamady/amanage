@@ -6,13 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.amadydev.amanage.R
 import com.amadydev.amanage.data.firebase.FirestoreDB
-import com.amadydev.amanage.data.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.regex.Pattern
+import javax.inject.Inject
 
-class SignInViewModel : ViewModel() {
+@HiltViewModel
+class SignInViewModel @Inject constructor()  : ViewModel() {
     private var auth: FirebaseAuth = Firebase.auth
 
     private val _signInState = MutableLiveData<SignInState>()
@@ -52,7 +54,7 @@ class SignInViewModel : ViewModel() {
             .addOnCompleteListener { task ->
                 when {
                     task.isSuccessful -> {
-                        FirestoreDB().loginUser(this)
+                        FirestoreDB().loadUserData(this)
                     }
                     else -> {
                         _signInState.value =
@@ -77,7 +79,7 @@ class SignInViewModel : ViewModel() {
         Pattern.compile("^(?=.*[0-9])(?=.*[A-Z])(?=\\S+\$).{8,}")
             .matcher(password).matches()
 
-    fun loginSuccess(isSuccess: Boolean, loggedUser: User = User()) {
+    fun loginSuccess(isSuccess: Boolean) {
         _signInState.value = SignInState.Loading(false)
         when {
             isSuccess -> {
