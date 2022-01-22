@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.webkit.MimeTypeMap
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
@@ -15,11 +17,14 @@ import com.amadydev.amanage.R
 import com.amadydev.amanage.data.model.User
 import com.amadydev.amanage.databinding.ActivityMyProfileBinding
 import com.amadydev.amanage.ui.BaseActivity
+import com.amadydev.amanage.ui.myprofile.MyProfileViewModel.MyProfileState.*
 import com.bumptech.glide.Glide
 
 class MyProfileActivity : BaseActivity() {
     private lateinit var binding: ActivityMyProfileBinding
     private val myProfileViewModel: MyProfileViewModel by viewModels()
+
+    private var mUri: Uri? = null
 
     private var selectPictureLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -34,7 +39,7 @@ class MyProfileActivity : BaseActivity() {
         setupActionBar()
         getUser()
         setupObservers()
-        setListeners()
+        setListeners(false)
     }
 
     private fun setupActionBar() {
@@ -55,13 +60,24 @@ class MyProfileActivity : BaseActivity() {
     private fun setupObservers() {
         myProfileViewModel.myProfileState.observe(this) {
             when (it) {
-                is MyProfileViewModel.MyProfileState.ProfileUser ->
+                is ProfileUser ->
                     setUserData(it.user)
-                is MyProfileViewModel.MyProfileState.Loading -> {
+                is Loading -> {
                     showProgressAndData(it.isLoading)
                 }
-                is MyProfileViewModel.MyProfileState.ImageUri ->
+                is ImageUri -> {
                     updateImage(it.uri)
+                    mUri = it.uri
+                }
+                is Error ->
+                    showErrorSnackBar(binding.root, it.message)
+                is ImageChanged -> {
+                    setListeners(it.isChanged)
+                }
+                is ProfileImageUrl -> {}
+                is Success -> {
+                    Toast.makeText(this, it.resourceId, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -90,7 +106,7 @@ class MyProfileActivity : BaseActivity() {
         }
     }
 
-    private fun setListeners() {
+    private fun setListeners(isChanged: Boolean) {
         with(binding) {
             ivUser.setOnClickListener {
                 if (ContextCompat.checkSelfPermission(
@@ -106,6 +122,22 @@ class MyProfileActivity : BaseActivity() {
                         arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                         READ_STORAGE_IMAGE_PERMISSION_CODE
                     )
+                }
+            }
+            btnUpdate.setOnClickListener {
+                when {
+                    isChanged -> {
+                        mUri?.let { uri ->
+                            myProfileViewModel.uploadUserImage(
+                                getString(R.string.image_user)
+                                    .plus(System.currentTimeMillis()).plus(".")
+                                    .plus(getFileExtension(uri)), uri
+                            )
+                        }
+                    }
+                    else -> {
+                        showErrorSnackBar(root, getString(R.string.sorry))
+                    }
                 }
             }
         }
@@ -129,12 +161,18 @@ class MyProfileActivity : BaseActivity() {
         }
     }
 
-    private fun showImageChooser() =
+    private fun showImageChooser() {
+        myProfileViewModel.changeImage()
         selectPictureLauncher.launch("image/*")
+    }
 
     private fun showProgressAndData(isLoading: Boolean) {
         binding.iProgress.root.isVisible = isLoading
     }
+
+    private fun getFileExtension(uri: Uri): String? =
+        MimeTypeMap.getSingleton()
+            .getExtensionFromMimeType(contentResolver.getType(uri))
 
     companion object {
         private const val READ_STORAGE_IMAGE_PERMISSION_CODE = 1

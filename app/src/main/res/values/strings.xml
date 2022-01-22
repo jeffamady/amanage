@@ -42,5 +42,6 @@
     <string name="my_profile_title">My Profile</string>
     <string name="phone_number">Phone Number</string>
     <string name="error_permission_storage">Oops! You denied permission for storage. Go to storage to allow it</string>
+    <string name="image_user">image_user</string>
 
 </resources>
