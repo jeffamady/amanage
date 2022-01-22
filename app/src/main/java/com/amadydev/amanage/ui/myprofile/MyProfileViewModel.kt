@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.amadydev.amanage.R
 import com.amadydev.amanage.data.firebase.FirestoreDB
 import com.amadydev.amanage.data.model.User
+import com.amadydev.amanage.utils.Constants
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
@@ -44,29 +45,61 @@ class MyProfileViewModel @Inject constructor() : ViewModel() {
                     "Downloadable Image Url",
                     uri.toString()
                 )
-                _myProfileState.value =
-                    MyProfileState.Success(R.string.success)
-                _myProfileState.value =
-                    MyProfileState.ImageChanged(false)
-                // Todo updateUserProfileData
             }
         }.addOnFailureListener {
-            it.message?.let { message -> MyProfileState.Error(message) }
+            it.message?.let { message -> MyProfileState.NonSuccess(message) }
+            _myProfileState.value = MyProfileState.Loading(false)
         }
-        _myProfileState.value = MyProfileState.Loading(false)
     }
 
-    fun changeImage() {
-        _myProfileState.value = MyProfileState.ImageChanged(true)
+    fun profileUpdateSuccess(isSuccess: Boolean) {
+        _myProfileState.value = MyProfileState.Loading(false)
+        when {
+            isSuccess -> _myProfileState.value =
+                MyProfileState.Success(R.string.profile_updated)
+            else -> {
+                _myProfileState.value = MyProfileState.Error
+            }
+        }
+
+    }
+
+    fun updateUserProfileData(
+        imageUrl: String, name: String,
+        phoneNumber: String, userDetails: User
+    ) {
+        val userHashMap = HashMap<String, Any>()
+        var dataChanged = false
+
+        if (imageUrl.isNotEmpty() && imageUrl != userDetails.image) {
+            userHashMap[Constants.IMAGE] = imageUrl
+            dataChanged = true
+        }
+
+        if (name.isNotEmpty() && name != userDetails.name) {
+            userHashMap[Constants.NAME] = name
+            dataChanged = true
+        }
+
+        if (phoneNumber.isNotEmpty() && phoneNumber != userDetails.mobile.toString()) {
+            userHashMap[Constants.MOBILE] = phoneNumber.toLong()
+            dataChanged = true
+        }
+
+        if (dataChanged)
+            FirestoreDB().updateUserProfileData(this, userHashMap)
+        if (!dataChanged)
+            _myProfileState.value = MyProfileState.Success(R.string.no_new_change)
+        _myProfileState.value = MyProfileState.Loading(false)
     }
 
     sealed class MyProfileState {
         data class Success(val resourceId: Int) : MyProfileState()
         data class ProfileUser(val user: User) : MyProfileState()
         data class Loading(val isLoading: Boolean) : MyProfileState()
-        data class ImageChanged(val isChanged: Boolean) : MyProfileState()
         data class ImageUri(val uri: Uri) : MyProfileState()
         data class ProfileImageUrl(val url: String) : MyProfileState()
-        data class Error(val message: String) : MyProfileState()
+        data class NonSuccess(val message: String) : MyProfileState()
+        object Error : MyProfileState()
     }
 }

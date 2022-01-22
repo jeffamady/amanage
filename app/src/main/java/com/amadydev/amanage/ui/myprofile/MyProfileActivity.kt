@@ -1,6 +1,7 @@
 package com.amadydev.amanage.ui.myprofile
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -12,19 +13,23 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
-import androidx.core.view.isVisible
 import com.amadydev.amanage.R
 import com.amadydev.amanage.data.model.User
 import com.amadydev.amanage.databinding.ActivityMyProfileBinding
 import com.amadydev.amanage.ui.BaseActivity
+import com.amadydev.amanage.ui.home.HomeActivity
 import com.amadydev.amanage.ui.myprofile.MyProfileViewModel.MyProfileState.*
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MyProfileActivity : BaseActivity() {
     private lateinit var binding: ActivityMyProfileBinding
     private val myProfileViewModel: MyProfileViewModel by viewModels()
 
     private var mUri: Uri? = null
+    private var mProfileImageUrl: String = ""
+    private var mProfileUser: User = User()
 
     private var selectPictureLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -39,7 +44,7 @@ class MyProfileActivity : BaseActivity() {
         setupActionBar()
         getUser()
         setupObservers()
-        setListeners(false)
+        setListeners()
     }
 
     private fun setupActionBar() {
@@ -60,23 +65,34 @@ class MyProfileActivity : BaseActivity() {
     private fun setupObservers() {
         myProfileViewModel.myProfileState.observe(this) {
             when (it) {
-                is ProfileUser ->
+                is ProfileUser -> {
                     setUserData(it.user)
+                    mProfileUser = it.user
+                }
                 is Loading -> {
-                    showProgressAndData(it.isLoading)
+                    showProgressDialog(it.isLoading)
                 }
                 is ImageUri -> {
                     updateImage(it.uri)
                     mUri = it.uri
                 }
-                is Error ->
+                is NonSuccess ->
                     showErrorSnackBar(binding.root, it.message)
-                is ImageChanged -> {
-                    setListeners(it.isChanged)
+                is ProfileImageUrl -> {
+                    mProfileImageUrl = it.url
+                    myProfileViewModel.updateUserProfileData(
+                        it.url,
+                        binding.etUserName.text.toString(),
+                        binding.etPhone.text.toString(), mProfileUser
+                    )
                 }
-                is ProfileImageUrl -> {}
                 is Success -> {
                     Toast.makeText(this, it.resourceId, Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, HomeActivity::class.java))
+                    finish()
+                }
+                Error -> {
+                    showErrorSnackBar(binding.root, getString(R.string.sorry))
                 }
             }
         }
@@ -106,7 +122,7 @@ class MyProfileActivity : BaseActivity() {
         }
     }
 
-    private fun setListeners(isChanged: Boolean) {
+    private fun setListeners() {
         with(binding) {
             ivUser.setOnClickListener {
                 if (ContextCompat.checkSelfPermission(
@@ -125,19 +141,20 @@ class MyProfileActivity : BaseActivity() {
                 }
             }
             btnUpdate.setOnClickListener {
-                when {
-                    isChanged -> {
-                        mUri?.let { uri ->
-                            myProfileViewModel.uploadUserImage(
-                                getString(R.string.image_user)
-                                    .plus(System.currentTimeMillis()).plus(".")
-                                    .plus(getFileExtension(uri)), uri
-                            )
-                        }
+                if (mUri != null) {
+                    mUri?.let { uri ->
+                        myProfileViewModel.uploadUserImage(
+                            getString(R.string.image_user)
+                                .plus(System.currentTimeMillis()).plus(".")
+                                .plus(getFileExtension(uri)), uri
+                        )
                     }
-                    else -> {
-                        showErrorSnackBar(root, getString(R.string.sorry))
-                    }
+
+                } else {
+                    myProfileViewModel.updateUserProfileData(
+                        mProfileImageUrl,
+                        etUserName.text.toString(), etPhone.text.toString(), mProfileUser
+                    )
                 }
             }
         }
@@ -162,12 +179,7 @@ class MyProfileActivity : BaseActivity() {
     }
 
     private fun showImageChooser() {
-        myProfileViewModel.changeImage()
         selectPictureLauncher.launch("image/*")
-    }
-
-    private fun showProgressAndData(isLoading: Boolean) {
-        binding.iProgress.root.isVisible = isLoading
     }
 
     private fun getFileExtension(uri: Uri): String? =

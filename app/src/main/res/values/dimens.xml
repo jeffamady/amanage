@@ -50,6 +50,6 @@
     <dimen name="nav_divider_height">0.5dp</dimen>
 
     <!--    My profile-->
-    <dimen name="my_profile_image_size">100dp</dimen>
+    <dimen name="my_profile_image_size">150dp</dimen>
 
 </resources>

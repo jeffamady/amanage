@@ -1,5 +1,6 @@
 package com.amadydev.amanage.data.firebase
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.amadydev.amanage.data.model.User
 import com.amadydev.amanage.ui.home.HomeViewModel
@@ -58,5 +59,21 @@ class FirestoreDB {
             currentUserId = it.uid
         }
         return currentUserId
+    }
+
+    fun updateUserProfileData(
+        viewModel: MyProfileViewModel,
+        userHashMap: HashMap<String, Any>
+    ) {
+        db.collection(USERS)
+            .document(getCurrentUserId())
+            .update(userHashMap)
+            .addOnSuccessListener {
+                Log.w(viewModel.javaClass.simpleName, "Profile data updated with success")
+                viewModel.profileUpdateSuccess(true)
+            }
+            .addOnFailureListener {
+                viewModel.profileUpdateSuccess(false)
+            }
     }
 }

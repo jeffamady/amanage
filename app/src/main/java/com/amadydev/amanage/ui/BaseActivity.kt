@@ -1,14 +1,12 @@
 package com.amadydev.amanage.ui
 
 import android.app.Dialog
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.amadydev.amanage.R
 import com.google.android.material.snackbar.Snackbar
@@ -26,6 +24,7 @@ open class BaseActivity : AppCompatActivity() {
                 Dialog(this).apply {
                     setContentView(R.layout.dialog_progress)
                     text?.let { findViewById<TextView>(R.id.tv_progress).text = it }
+                    setCancelable(false)
                     show()
                 }
             !show -> mProgressDialog.dismiss()

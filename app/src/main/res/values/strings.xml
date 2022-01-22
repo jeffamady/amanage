@@ -43,5 +43,7 @@
     <string name="phone_number">Phone Number</string>
     <string name="error_permission_storage">Oops! You denied permission for storage. Go to storage to allow it</string>
     <string name="image_user">image_user</string>
+    <string name="no_new_change">No new change to add</string>
+    <string name="profile_updated">Profile updated successfully</string>
 
 </resources>
