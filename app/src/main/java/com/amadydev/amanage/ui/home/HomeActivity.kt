@@ -12,6 +12,7 @@ import com.amadydev.amanage.R
 import com.amadydev.amanage.data.model.User
 import com.amadydev.amanage.databinding.ActivityHomeBinding
 import com.amadydev.amanage.ui.BaseActivity
+import com.amadydev.amanage.ui.board.CreateBoardHomeActivity
 import com.amadydev.amanage.ui.intro.IntroActivity
 import com.amadydev.amanage.ui.myprofile.MyProfileActivity
 import com.bumptech.glide.Glide
@@ -38,7 +39,22 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setupActionBar()
         setupObservers()
         getUser()
-        binding.navView.setNavigationItemSelectedListener(this)
+        setListeners()
+    }
+
+    private fun setListeners() {
+        with(binding) {
+            navView.setNavigationItemSelectedListener(this@HomeActivity)
+
+            iNav.fabCreateBoard.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this@HomeActivity,
+                        CreateBoardHomeActivity::class.java
+                    )
+                )
+            }
+        }
     }
 
     private fun getUser() {

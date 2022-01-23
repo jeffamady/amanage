@@ -15,6 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Amanage">
         <activity
+            android:name=".ui.board.CreateBoardHomeActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
             android:name=".ui.myprofile.MyProfileActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
