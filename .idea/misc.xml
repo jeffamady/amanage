@@ -11,11 +11,17 @@
         <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/drawable/white_border_shape_button_rounded.xml" value="0.221875" />
         <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout-w1240dp/activity_sign_up.xml" value="0.1321954484605087" />
         <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout-w936dp/activity_sign_up.xml" value="0.154296875" />
-        <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout/activity_intro.xml" value="0.20572916666666666" />
+        <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout/activity_home.xml" value="0.253125" />
+        <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout/activity_intro.xml" value="0.1" />
+        <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout/activity_my_profile.xml" value="0.253125" />
         <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout/activity_sign_in.xml" value="0.33" />
         <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout/activity_sign_up.xml" value="0.20572916666666666" />
         <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout/activity_splash.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout/app_bar_home.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout/content_home.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout/dialog_image_user.xml" value="0.253125" />
         <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout/dialog_progress.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout/nav_header_home.xml" value="0.253125" />
         <entry key="app/src/main/res/drawable/button_rounded.xml" value="0.11041666666666666" />
         <entry key="app/src/main/res/drawable/ic_black_color_back_24dp.xml" value="0.2171875" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2171875" />
