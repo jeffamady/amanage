@@ -1,7 +1,6 @@
 package com.amadydev.amanage.ui.myprofile
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -17,7 +16,6 @@ import com.amadydev.amanage.R
 import com.amadydev.amanage.data.model.User
 import com.amadydev.amanage.databinding.ActivityMyProfileBinding
 import com.amadydev.amanage.ui.BaseActivity
-import com.amadydev.amanage.ui.home.HomeActivity
 import com.amadydev.amanage.ui.myprofile.MyProfileViewModel.MyProfileState.*
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,7 +27,6 @@ class MyProfileActivity : BaseActivity() {
 
     private var mUri: Uri? = null
     private var mProfileImageUrl: String = ""
-    private var mProfileUser: User = User()
 
     private var selectPictureLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -43,7 +40,7 @@ class MyProfileActivity : BaseActivity() {
 
         setupActionBar()
         getUser()
-        setupObservers()
+        setObservers()
         setListeners()
     }
 
@@ -62,12 +59,11 @@ class MyProfileActivity : BaseActivity() {
 
     private fun getUser() = myProfileViewModel.getUser()
 
-    private fun setupObservers() {
+    private fun setObservers() {
         myProfileViewModel.myProfileState.observe(this) {
             when (it) {
                 is ProfileUser -> {
                     setUserData(it.user)
-                    mProfileUser = it.user
                 }
                 is Loading -> {
                     showProgressDialog(it.isLoading)
@@ -80,19 +76,15 @@ class MyProfileActivity : BaseActivity() {
                     showErrorSnackBar(binding.root, it.message)
                 is ProfileImageUrl -> {
                     mProfileImageUrl = it.url
-                    myProfileViewModel.updateUserProfileData(
-                        it.url,
-                        binding.etUserName.text.toString(),
-                        binding.etPhone.text.toString(), mProfileUser
-                    )
+                    updateUserProfileData()
                 }
                 is Success -> {
                     Toast.makeText(this, it.resourceId, Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, HomeActivity::class.java))
+                    setResult(RESULT_OK)
                     finish()
                 }
-                Error -> {
-                    showErrorSnackBar(binding.root, getString(R.string.sorry))
+                is Error -> {
+                    showErrorSnackBar(binding.root, getString(it.resourceId))
                 }
             }
         }
@@ -146,18 +138,22 @@ class MyProfileActivity : BaseActivity() {
                         myProfileViewModel.uploadUserImage(
                             getString(R.string.image_user)
                                 .plus(System.currentTimeMillis()).plus(".")
-                                .plus(getFileExtension(uri)), uri
+                                .plus(getFileExtension(uri))
                         )
                     }
 
                 } else {
-                    myProfileViewModel.updateUserProfileData(
-                        mProfileImageUrl,
-                        etUserName.text.toString(), etPhone.text.toString(), mProfileUser
-                    )
+                    updateUserProfileData()
                 }
             }
         }
+    }
+
+    private fun updateUserProfileData() {
+        myProfileViewModel.updateUserProfileData(
+            mProfileImageUrl,
+            binding.etUserName.text.toString(), binding.etPhone.text.toString()
+        )
     }
 
     override fun onRequestPermissionsResult(
