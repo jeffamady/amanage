@@ -37,6 +37,8 @@
     <!--    Home Activity-->
     <string name="nav_my_profile">My Profile</string>
     <string name="nav_sign_out">Sign Out</string>
+    <string name="close">Close</string>
+
     <!--My Profile-->
     <string name="update">UPDATE</string>
     <string name="my_profile_title">My Profile</string>
@@ -45,5 +47,6 @@
     <string name="image_user">image_user</string>
     <string name="no_new_change">No new change to add</string>
     <string name="profile_updated">Profile updated successfully</string>
+    <string name="profile_update_failed">Sorry profile not updated. Please try again!</string>
 
 </resources>
