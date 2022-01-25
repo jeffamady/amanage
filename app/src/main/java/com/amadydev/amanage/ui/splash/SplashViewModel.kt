@@ -8,12 +8,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor() : ViewModel() {
+class SplashViewModel @Inject constructor(private val db: FirestoreDB) : ViewModel() {
     private val _splashState = MutableLiveData<SplashState>()
     val splashState: LiveData<SplashState> = _splashState
 
     fun isUserLoggedIn() {
-        val currentUserId = FirestoreDB().getCurrentUserId()
+        val currentUserId = db.getCurrentUserId()
         if (currentUserId.isNotEmpty()) {
             _splashState.value = SplashState.Logged(true)
         } else {

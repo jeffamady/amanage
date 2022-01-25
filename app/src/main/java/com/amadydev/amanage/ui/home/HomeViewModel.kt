@@ -9,19 +9,19 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor()  : ViewModel() {
+class HomeViewModel @Inject constructor(private val db: FirestoreDB) : ViewModel() {
     private val _homeState = MutableLiveData<HomeState>()
-    val homeState : LiveData<HomeState> = _homeState
+    val homeState: LiveData<HomeState> = _homeState
 
     fun updateNavUser(loggedUser: User) {
         _homeState.value = HomeState.NavUser(loggedUser)
     }
 
     fun getUser() {
-        FirestoreDB().loadUserData(this)
+        db.loadUserData(this)
     }
 
     sealed class HomeState {
-        data class NavUser(val user: User): HomeState()
+        data class NavUser(val user: User) : HomeState()
     }
 }

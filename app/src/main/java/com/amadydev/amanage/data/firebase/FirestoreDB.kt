@@ -2,18 +2,24 @@ package com.amadydev.amanage.data.firebase
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.amadydev.amanage.data.model.Board
 import com.amadydev.amanage.data.model.User
+import com.amadydev.amanage.ui.board.CreateBoardViewModel
 import com.amadydev.amanage.ui.home.HomeViewModel
 import com.amadydev.amanage.ui.myprofile.MyProfileViewModel
 import com.amadydev.amanage.ui.signin.SignInViewModel
 import com.amadydev.amanage.ui.signup.SignUpViewModel
+import com.amadydev.amanage.utils.Constants.BOARDS
 import com.amadydev.amanage.utils.Constants.USERS
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class FirestoreDB {
+@Singleton
+class FirestoreDB @Inject constructor() {
     private val db = Firebase.firestore
 
     fun registerUser(viewModel: SignUpViewModel, user: User) {
@@ -41,6 +47,9 @@ class FirestoreDB {
                             viewModel.updateNavUser(loggedUser)
                         }
                         is MyProfileViewModel -> {
+                            viewModel.updateProfileUser(loggedUser)
+                        }
+                        is CreateBoardViewModel -> {
                             viewModel.updateProfileUser(loggedUser)
                         }
                     }
@@ -74,6 +83,18 @@ class FirestoreDB {
             }
             .addOnFailureListener {
                 viewModel.profileUpdateSuccess(false)
+            }
+    }
+
+    // Create Boards
+    fun createBoard(viewModel: CreateBoardViewModel, board: Board) {
+        db.collection(BOARDS)
+            .document(getCurrentUserId()).set(board, SetOptions.merge())
+            .addOnSuccessListener {
+                viewModel.boardCreatedSuccess(true)
+            }
+            .addOnFailureListener {
+                it.message?.let { message -> viewModel.boardCreatedSuccess(false, message) }
             }
     }
 }

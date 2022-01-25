@@ -14,7 +14,7 @@ import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor()  : ViewModel() {
+class SignInViewModel @Inject constructor(private val db: FirestoreDB)  : ViewModel() {
     private var auth: FirebaseAuth = Firebase.auth
 
     private val _signInState = MutableLiveData<SignInState>()
@@ -54,7 +54,7 @@ class SignInViewModel @Inject constructor()  : ViewModel() {
             .addOnCompleteListener { task ->
                 when {
                     task.isSuccessful -> {
-                        FirestoreDB().loadUserData(this)
+                        db.loadUserData(this)
                     }
                     else -> {
                         _signInState.value =

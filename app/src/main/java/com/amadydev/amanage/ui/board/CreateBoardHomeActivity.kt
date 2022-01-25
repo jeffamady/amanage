@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
@@ -13,13 +14,21 @@ import androidx.core.view.get
 import com.amadydev.amanage.R
 import com.amadydev.amanage.databinding.ActivityCreateBoardHomeBinding
 import com.amadydev.amanage.ui.BaseActivity
+import com.amadydev.amanage.ui.board.CreateBoardViewModel.CreateBoardState.BoardImageUrl
+import com.amadydev.amanage.ui.board.CreateBoardViewModel.CreateBoardState.ImageUri
+import com.amadydev.amanage.utils.Constants
 import com.amadydev.amanage.utils.Constants.READ_STORAGE_IMAGE_PERMISSION_CODE
 import com.amadydev.amanage.utils.Constants.showImageChooser
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CreateBoardHomeActivity : BaseActivity() {
     private lateinit var binding: ActivityCreateBoardHomeBinding
     private val createBoardViewModel: CreateBoardViewModel by viewModels()
+
+    private var mUri: Uri? = null
+    private var mBoardImageUrl: String = ""
 
     private var selectPictureLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -52,8 +61,24 @@ class CreateBoardHomeActivity : BaseActivity() {
     private fun setObservers() {
         createBoardViewModel.createBoardState.observe(this) {
             when (it) {
-                is CreateBoardViewModel.CreateBoardState.ImageUri ->
+                is ImageUri ->
                     updateImage(it.uri)
+                is BoardImageUrl -> {
+                    mBoardImageUrl = it.url
+                    createBoard()
+                }
+                is CreateBoardViewModel.CreateBoardState.CurrentUser -> {}
+                is CreateBoardViewModel.CreateBoardState.Error -> {
+                    showErrorSnackBar(binding.root, getString(it.resourceId))
+                }
+                is CreateBoardViewModel.CreateBoardState.Loading ->
+                    showProgressDialog(it.isLoading)
+                is CreateBoardViewModel.CreateBoardState.NonSuccess ->
+                    showErrorSnackBar(binding.root, it.message)
+                is CreateBoardViewModel.CreateBoardState.Success -> {
+                    Toast.makeText(this, it.resourceId, Toast.LENGTH_SHORT).show()
+                    finish()
+                }
             }
         }
     }
@@ -74,6 +99,21 @@ class CreateBoardHomeActivity : BaseActivity() {
                         arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                         READ_STORAGE_IMAGE_PERMISSION_CODE
                     )
+                }
+            }
+
+            btnCreate.setOnClickListener {
+                if (mUri != null) {
+                    mUri?.let { uri ->
+                        createBoardViewModel.uploadBoardImage(
+                            Constants.BOARD_IMAGE
+                                .plus(System.currentTimeMillis()).plus(".")
+                                .plus(Constants.getFileExtension(this@CreateBoardHomeActivity, uri))
+                        )
+                    }
+
+                } else {
+                    createBoard()
                 }
             }
         }
@@ -103,5 +143,12 @@ class CreateBoardHomeActivity : BaseActivity() {
             .error(R.drawable.ic_user_place_holder)
             .centerCrop()
             .into(binding.ivBoard)
+    }
+
+    private fun createBoard() {
+        createBoardViewModel.createBoard(
+            binding.etBoardName.text.toString(),
+            mBoardImageUrl
+        )
     }
 }

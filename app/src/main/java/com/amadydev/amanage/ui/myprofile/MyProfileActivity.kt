@@ -17,6 +17,7 @@ import com.amadydev.amanage.databinding.ActivityMyProfileBinding
 import com.amadydev.amanage.ui.BaseActivity
 import com.amadydev.amanage.ui.myprofile.MyProfileViewModel.MyProfileState.*
 import com.amadydev.amanage.utils.Constants.READ_STORAGE_IMAGE_PERMISSION_CODE
+import com.amadydev.amanage.utils.Constants.USER_IMAGE
 import com.amadydev.amanage.utils.Constants.getFileExtension
 import com.amadydev.amanage.utils.Constants.showImageChooser
 import com.bumptech.glide.Glide
@@ -138,9 +139,9 @@ class MyProfileActivity : BaseActivity() {
                 if (mUri != null) {
                     mUri?.let { uri ->
                         myProfileViewModel.uploadUserImage(
-                            getString(R.string.image_user)
+                            USER_IMAGE
                                 .plus(System.currentTimeMillis()).plus(".")
-                                .plus(getFileExtension(this@MyProfileActivity,uri))
+                                .plus(getFileExtension(this@MyProfileActivity, uri))
                         )
                     }
 
@@ -175,8 +176,6 @@ class MyProfileActivity : BaseActivity() {
             }
         }
     }
-
-
 
 
 }

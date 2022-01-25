@@ -16,16 +16,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MyProfileViewModel @Inject constructor() : ViewModel() {
+class MyProfileViewModel @Inject constructor(private val db: FirestoreDB) : ViewModel() {
     private val _myProfileState = MutableLiveData<MyProfileState>()
     val myProfileState: LiveData<MyProfileState> = _myProfileState
 
     private lateinit var mUri: Uri
+
     private var mProfileUser: User = User()
 
     fun getUser() {
         _myProfileState.value = MyProfileState.Loading(true)
-        FirestoreDB().loadUserData(this)
+        db.loadUserData(this)
     }
 
     fun updateProfileUser(loggedUser: User) {
@@ -93,7 +94,7 @@ class MyProfileViewModel @Inject constructor() : ViewModel() {
         }
 
         if (dataChanged)
-            FirestoreDB().updateUserProfileData(this, userHashMap)
+            db.updateUserProfileData(this, userHashMap)
         if (!dataChanged)
             _myProfileState.value = MyProfileState.Error(R.string.no_new_change)
         _myProfileState.value = MyProfileState.Loading(false)

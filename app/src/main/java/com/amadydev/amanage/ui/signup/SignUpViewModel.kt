@@ -15,7 +15,7 @@ import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor() : ViewModel() {
+class SignUpViewModel @Inject constructor(private val db: FirestoreDB) : ViewModel() {
     private val auth = Firebase.auth
     private val _signUpState = MutableLiveData<SignUpState>()
     val signUpState: LiveData<SignUpState> = _signUpState
@@ -51,7 +51,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
                     task.isSuccessful -> {
                         task.result.user?.let {
                             val user = User(it.uid, name, email)
-                            FirestoreDB().registerUser(this, user)
+                            db.registerUser(this, user)
                         }
                     }
                     else -> {

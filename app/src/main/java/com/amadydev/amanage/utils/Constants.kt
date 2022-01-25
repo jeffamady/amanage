@@ -10,6 +10,9 @@ object Constants {
     const val IMAGE: String = "image"
     const val NAME: String = "name"
     const val MOBILE: String = "mobile"
+    const val BOARDS: String = "boards"
+    const val USER_IMAGE: String = "user_image"
+    const val BOARD_IMAGE: String = "board_image"
     const val READ_STORAGE_IMAGE_PERMISSION_CODE = 1
 
 
