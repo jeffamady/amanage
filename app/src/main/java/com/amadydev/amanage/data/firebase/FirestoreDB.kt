@@ -50,7 +50,7 @@ class FirestoreDB @Inject constructor() {
                             viewModel.updateProfileUser(loggedUser)
                         }
                         is CreateBoardViewModel -> {
-                            viewModel.updateProfileUser(loggedUser)
+                            viewModel.updateUser(loggedUser)
                         }
                     }
 

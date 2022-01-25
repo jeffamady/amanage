@@ -1,6 +1,7 @@
 package com.amadydev.amanage.ui.board
 
 import android.net.Uri
+import android.text.TextUtils
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,9 +13,13 @@ import com.amadydev.amanage.data.model.User
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class CreateBoardViewModel @Inject constructor(private val db: FirestoreDB) : ViewModel() {
+@HiltViewModel
+class CreateBoardViewModel @Inject constructor(
+    private val db: FirestoreDB
+) : ViewModel() {
     private val _createBoardState = MutableLiveData<CreateBoardState>()
     val createBoardState: LiveData<CreateBoardState> = _createBoardState
 
@@ -44,10 +49,17 @@ class CreateBoardViewModel @Inject constructor(private val db: FirestoreDB) : Vi
     private fun getCurrentUserId() =
         db.getCurrentUserId()
 
-    fun updateProfileUser(loggedUser: User) {
+    fun updateUser(loggedUser: User) {
+        _createBoardState.value = CreateBoardState.Loading(false)
         _createBoardState.value = CreateBoardState.CurrentUser(loggedUser)
         mCurrentUser = loggedUser
     }
+
+    fun getUser() {
+        _createBoardState.value = CreateBoardState.Loading(true)
+        db.loadUserData(this)
+    }
+
 
     fun boardCreatedSuccess(isCreated: Boolean, message: String = "") {
         _createBoardState.value = CreateBoardState.Loading(false)
@@ -55,7 +67,7 @@ class CreateBoardViewModel @Inject constructor(private val db: FirestoreDB) : Vi
             isCreated -> _createBoardState.value =
                 CreateBoardState.Success(R.string.board_created)
             else -> {
-                _createBoardState.value = CreateBoardState.Error(R.string.board_create_failed)
+                _createBoardState.value = CreateBoardState.Error(message)
             }
         }
     }
@@ -78,6 +90,18 @@ class CreateBoardViewModel @Inject constructor(private val db: FirestoreDB) : Vi
         }
     }
 
+    fun validateBoardName(name: String) {
+        when {
+            TextUtils.isEmpty(name) -> {
+                _createBoardState.value = CreateBoardState.NameError(R.string.invalid_name)
+                _createBoardState.value = CreateBoardState.IsNameValid(false)
+            }
+            else -> {
+                _createBoardState.value = CreateBoardState.IsNameValid(true)
+            }
+        }
+    }
+
     sealed class CreateBoardState {
         data class Success(val resourceId: Int) : CreateBoardState()
         data class CurrentUser(val user: User) : CreateBoardState()
@@ -85,6 +109,8 @@ class CreateBoardViewModel @Inject constructor(private val db: FirestoreDB) : Vi
         data class Loading(val isLoading: Boolean) : CreateBoardState()
         data class BoardImageUrl(val url: String) : CreateBoardState()
         data class NonSuccess(val message: String) : CreateBoardState()
-        data class Error(val resourceId: Int) : CreateBoardState()
+        data class Error(val message: String) : CreateBoardState()
+        data class NameError(val resourceId: Int) : CreateBoardState()
+        data class IsNameValid(val isNameValid: Boolean) : CreateBoardState()
     }
 }

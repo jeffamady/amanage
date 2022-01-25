@@ -136,18 +136,13 @@ class MyProfileActivity : BaseActivity() {
                 }
             }
             btnUpdate.setOnClickListener {
-                if (mUri != null) {
-                    mUri?.let { uri ->
-                        myProfileViewModel.uploadUserImage(
-                            USER_IMAGE
-                                .plus(System.currentTimeMillis()).plus(".")
-                                .plus(getFileExtension(this@MyProfileActivity, uri))
-                        )
-                    }
-
-                } else {
-                    updateUserProfileData()
-                }
+                mUri?.let { uri ->
+                    myProfileViewModel.uploadUserImage(
+                        USER_IMAGE
+                            .plus(System.currentTimeMillis()).plus(".")
+                            .plus(getFileExtension(this@MyProfileActivity, uri))
+                    )
+                } ?: updateUserProfileData()
             }
         }
     }

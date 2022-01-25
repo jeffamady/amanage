@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.amadydev.amanage.R
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -29,11 +28,7 @@ open class BaseActivity : AppCompatActivity() {
                 }
             !show -> mProgressDialog.dismiss()
         }
-
     }
-
-    fun getCurrentUserId(): String? =
-        FirebaseAuth.getInstance().currentUser?.uid
 
     fun doubleBackToExit() {
         if (doubleBackToExit) {

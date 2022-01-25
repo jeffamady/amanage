@@ -14,11 +14,12 @@ import androidx.core.view.get
 import com.amadydev.amanage.R
 import com.amadydev.amanage.databinding.ActivityCreateBoardHomeBinding
 import com.amadydev.amanage.ui.BaseActivity
-import com.amadydev.amanage.ui.board.CreateBoardViewModel.CreateBoardState.BoardImageUrl
-import com.amadydev.amanage.ui.board.CreateBoardViewModel.CreateBoardState.ImageUri
+import com.amadydev.amanage.ui.board.CreateBoardViewModel.*
+import com.amadydev.amanage.ui.board.CreateBoardViewModel.CreateBoardState.*
 import com.amadydev.amanage.utils.Constants
 import com.amadydev.amanage.utils.Constants.READ_STORAGE_IMAGE_PERMISSION_CODE
 import com.amadydev.amanage.utils.Constants.showImageChooser
+import com.amadydev.amanage.utils.afterTextChanged
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,8 +42,10 @@ class CreateBoardHomeActivity : BaseActivity() {
         setContentView(binding.root)
 
         setupActionBar()
+        getUser()
+        validateBoardName()
         setObservers()
-        setListeners()
+        setListeners(false)
     }
 
     private fun setupActionBar() {
@@ -58,32 +61,41 @@ class CreateBoardHomeActivity : BaseActivity() {
         }
     }
 
+    private fun getUser() =
+        createBoardViewModel.getUser()
+
     private fun setObservers() {
         createBoardViewModel.createBoardState.observe(this) {
             when (it) {
-                is ImageUri ->
+                is ImageUri -> {
                     updateImage(it.uri)
+                    mUri = it.uri
+                }
                 is BoardImageUrl -> {
                     mBoardImageUrl = it.url
                     createBoard()
                 }
-                is CreateBoardViewModel.CreateBoardState.CurrentUser -> {}
-                is CreateBoardViewModel.CreateBoardState.Error -> {
-                    showErrorSnackBar(binding.root, getString(it.resourceId))
-                }
-                is CreateBoardViewModel.CreateBoardState.Loading ->
-                    showProgressDialog(it.isLoading)
-                is CreateBoardViewModel.CreateBoardState.NonSuccess ->
+                is CurrentUser -> {}
+                is Error -> {
                     showErrorSnackBar(binding.root, it.message)
-                is CreateBoardViewModel.CreateBoardState.Success -> {
+                }
+                is Loading ->
+                    showProgressDialog(it.isLoading)
+                is NonSuccess ->
+                    showErrorSnackBar(binding.root, it.message)
+                is Success -> {
                     Toast.makeText(this, it.resourceId, Toast.LENGTH_SHORT).show()
                     finish()
                 }
+                is IsNameValid ->
+                    setListeners(it.isNameValid)
+                is NameError ->
+                    binding.etBoardName.error = getString(it.resourceId)
             }
         }
     }
 
-    private fun setListeners() {
+    private fun setListeners(isNameValid: Boolean) {
         with(binding) {
             ivBoard.setOnClickListener {
                 if (ContextCompat.checkSelfPermission(
@@ -101,21 +113,26 @@ class CreateBoardHomeActivity : BaseActivity() {
                     )
                 }
             }
-
             btnCreate.setOnClickListener {
-                if (mUri != null) {
-                    mUri?.let { uri ->
-                        createBoardViewModel.uploadBoardImage(
-                            Constants.BOARD_IMAGE
-                                .plus(System.currentTimeMillis()).plus(".")
-                                .plus(Constants.getFileExtension(this@CreateBoardHomeActivity, uri))
-                        )
+                when {
+                    isNameValid -> {
+                        mUri?.let { uri ->
+                            createBoardViewModel.uploadBoardImage(
+                                Constants.BOARD_IMAGE
+                                    .plus(System.currentTimeMillis()).plus(".")
+                                    .plus(
+                                        Constants.getFileExtension(
+                                            this@CreateBoardHomeActivity,
+                                            uri
+                                        )
+                                    )
+                            )
+                        } ?: createBoard()
                     }
-
-                } else {
-                    createBoard()
+                    else -> showErrorSnackBar(it, getString(R.string.form_error))
                 }
             }
+
         }
     }
 
@@ -150,5 +167,15 @@ class CreateBoardHomeActivity : BaseActivity() {
             binding.etBoardName.text.toString(),
             mBoardImageUrl
         )
+    }
+
+    private fun validateBoardName() {
+        with(binding) {
+            etBoardName.afterTextChanged {
+                createBoardViewModel.validateBoardName(
+                    etBoardName.text.toString()
+                )
+            }
+        }
     }
 }
