@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -17,6 +16,9 @@ import com.amadydev.amanage.data.model.User
 import com.amadydev.amanage.databinding.ActivityMyProfileBinding
 import com.amadydev.amanage.ui.BaseActivity
 import com.amadydev.amanage.ui.myprofile.MyProfileViewModel.MyProfileState.*
+import com.amadydev.amanage.utils.Constants.READ_STORAGE_IMAGE_PERMISSION_CODE
+import com.amadydev.amanage.utils.Constants.getFileExtension
+import com.amadydev.amanage.utils.Constants.showImageChooser
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -123,7 +125,7 @@ class MyProfileActivity : BaseActivity() {
                     == PackageManager.PERMISSION_GRANTED
                 ) {
                     //Show image chooser
-                    showImageChooser()
+                    showImageChooser(selectPictureLauncher)
                 } else {
                     ActivityCompat.requestPermissions(
                         this@MyProfileActivity,
@@ -138,7 +140,7 @@ class MyProfileActivity : BaseActivity() {
                         myProfileViewModel.uploadUserImage(
                             getString(R.string.image_user)
                                 .plus(System.currentTimeMillis()).plus(".")
-                                .plus(getFileExtension(uri))
+                                .plus(getFileExtension(this@MyProfileActivity,uri))
                         )
                     }
 
@@ -167,22 +169,14 @@ class MyProfileActivity : BaseActivity() {
                 grantResults[0] == PackageManager.PERMISSION_GRANTED
             ) {
                 //Show image chooser
-                showImageChooser()
+                showImageChooser(selectPictureLauncher)
             } else {
                 showErrorSnackBar(binding.root, getString(R.string.error_permission_storage))
             }
         }
     }
 
-    private fun showImageChooser() {
-        selectPictureLauncher.launch("image/*")
-    }
 
-    private fun getFileExtension(uri: Uri): String? =
-        MimeTypeMap.getSingleton()
-            .getExtensionFromMimeType(contentResolver.getType(uri))
 
-    companion object {
-        private const val READ_STORAGE_IMAGE_PERMISSION_CODE = 1
-    }
+
 }
