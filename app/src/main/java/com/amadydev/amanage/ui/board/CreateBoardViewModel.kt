@@ -86,8 +86,8 @@ class CreateBoardViewModel @Inject constructor(
             }
         }.addOnFailureListener {
             it.message?.let { message -> CreateBoardState.NonSuccess(message) }
-            _createBoardState.value = CreateBoardState.Loading(false)
         }
+        _createBoardState.value = CreateBoardState.Loading(false)
     }
 
     fun validateBoardName(name: String) {

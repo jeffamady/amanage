@@ -54,8 +54,8 @@ class MyProfileViewModel @Inject constructor(private val db: FirestoreDB) : View
             }
         }.addOnFailureListener {
             it.message?.let { message -> MyProfileState.NonSuccess(message) }
-            _myProfileState.value = MyProfileState.Loading(false)
         }
+        _myProfileState.value = MyProfileState.Loading(false)
     }
 
     fun profileUpdateSuccess(isSuccess: Boolean) {

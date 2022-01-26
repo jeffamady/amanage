@@ -14,7 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 open class BaseActivity : AppCompatActivity() {
 
     private var doubleBackToExit = false
-    private lateinit var mProgressDialog: Dialog
+    private var mProgressDialog: Dialog? = null
 
 
     fun showProgressDialog(show: Boolean, text: String? = null) {
@@ -26,7 +26,7 @@ open class BaseActivity : AppCompatActivity() {
                     setCancelable(false)
                     show()
                 }
-            !show -> mProgressDialog.dismiss()
+            !show -> mProgressDialog?.dismiss()
         }
     }
 
@@ -63,5 +63,11 @@ open class BaseActivity : AppCompatActivity() {
             show()
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mProgressDialog?.dismiss()
+        mProgressDialog = null
     }
 }

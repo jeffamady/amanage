@@ -10,8 +10,9 @@ import com.amadydev.amanage.ui.BaseActivity
 import com.amadydev.amanage.ui.home.HomeActivity
 import com.amadydev.amanage.ui.signin.SignInViewModel.SignInState.*
 import com.amadydev.amanage.utils.afterTextChanged
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SignInActivity : BaseActivity() {
     private lateinit var binding: ActivitySignInBinding
     private val signInViewModel: SignInViewModel by viewModels()
