@@ -9,6 +9,7 @@ import com.amadydev.amanage.ui.home.HomeViewModel
 import com.amadydev.amanage.ui.myprofile.MyProfileViewModel
 import com.amadydev.amanage.ui.signin.SignInViewModel
 import com.amadydev.amanage.ui.signup.SignUpViewModel
+import com.amadydev.amanage.utils.Constants.ASSIGNED_TO
 import com.amadydev.amanage.utils.Constants.BOARDS
 import com.amadydev.amanage.utils.Constants.USERS
 import com.google.firebase.auth.ktx.auth
@@ -33,7 +34,7 @@ class FirestoreDB @Inject constructor() {
             }
     }
 
-    fun loadUserData(viewModel: ViewModel) {
+    fun loadUserData(viewModel: ViewModel, readBoardList: Boolean = false) {
         db.collection(USERS)
             .document(getCurrentUserId())
             .get()
@@ -44,7 +45,7 @@ class FirestoreDB @Inject constructor() {
                             viewModel.loginSuccess(true)
                         }
                         is HomeViewModel -> {
-                            viewModel.updateNavUser(loggedUser)
+                            viewModel.updateNavUser(loggedUser, readBoardList)
                         }
                         is MyProfileViewModel -> {
                             viewModel.updateProfileUser(loggedUser)
@@ -89,12 +90,34 @@ class FirestoreDB @Inject constructor() {
     // Create Boards
     fun createBoard(viewModel: CreateBoardViewModel, board: Board) {
         db.collection(BOARDS)
-            .document(getCurrentUserId()).set(board, SetOptions.merge())
+            .document()
+            .set(board, SetOptions.merge())
             .addOnSuccessListener {
                 viewModel.boardCreatedSuccess(true)
             }
             .addOnFailureListener {
                 it.message?.let { message -> viewModel.boardCreatedSuccess(false, message) }
+            }
+    }
+
+    fun getBoards(viewModel: HomeViewModel) {
+        db.collection(BOARDS)
+            .whereArrayContains(ASSIGNED_TO, getCurrentUserId())
+            .get()
+            .addOnSuccessListener {
+                    document ->
+                val mBoardList = mutableListOf<Board>()
+                val boardList: List<Board> = mBoardList
+                document.documents.forEach {
+                    it.toObject(Board::class.java)?.let { board ->
+                        board.documentId = it.id
+                        mBoardList.add(board)
+                    }
+                }
+                viewModel.updateBoards(boardList)
+            }
+            .addOnFailureListener {
+                viewModel.onFailure()
             }
     }
 }

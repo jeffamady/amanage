@@ -54,6 +54,9 @@
     <!--Create Board-->
     <string name="board_created">Board created successfully</string>
     <string name="board_create_failed">Sorry board not created. Please try again!</string>
+    <string name="no_boards">No boards available. Please create one.</string>
+    <string name="created_by">Created by:</string>
+    <string name="board_error">Oops! An error occurred. Please try again</string>
 
 
 

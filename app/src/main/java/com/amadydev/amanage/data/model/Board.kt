@@ -8,5 +8,6 @@ data class Board(
     val name: String = "",
     val image: String = "",
     val createdBy: String = "",
-    val assignedTo: ArrayList<String> = ArrayList()
-): Parcelable
+    val assignedTo: ArrayList<String> = ArrayList(),
+    var documentId: String = ""
+) : Parcelable

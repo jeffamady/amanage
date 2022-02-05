@@ -60,4 +60,8 @@
     <!--    My profile-->
     <dimen name="my_profile_image_size">150dp</dimen>
 
+
+    <dimen name="home_image_size">80dp</dimen>
+
+
 </resources>

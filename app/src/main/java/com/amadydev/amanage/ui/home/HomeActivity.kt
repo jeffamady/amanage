@@ -1,17 +1,26 @@
 package com.amadydev.amanage.ui.home
 
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.amadydev.amanage.R
+import com.amadydev.amanage.data.model.Board
 import com.amadydev.amanage.data.model.User
 import com.amadydev.amanage.databinding.ActivityHomeBinding
+import com.amadydev.amanage.databinding.ContentHomeBinding
 import com.amadydev.amanage.ui.BaseActivity
+import com.amadydev.amanage.ui.board.BoardAdapter
 import com.amadydev.amanage.ui.board.CreateBoardHomeActivity
 import com.amadydev.amanage.ui.intro.IntroActivity
 import com.amadydev.amanage.ui.myprofile.MyProfileActivity
@@ -22,7 +31,8 @@ import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
+    BoardAdapter.OnBoardClickListener {
     private lateinit var binding: ActivityHomeBinding
     private val homeViewModel: HomeViewModel by viewModels()
 
@@ -40,7 +50,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setupObservers()
         getUser()
         setListeners()
+//        getBoards()
     }
+
 
     private fun setListeners() {
         with(binding) {
@@ -61,12 +73,22 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         homeViewModel.getUser()
     }
 
+    private fun getBoards() {
+        homeViewModel.getBoards()
+    }
+
     private fun setupObservers() {
         homeViewModel.homeState.observe(this) {
             when (it) {
                 is HomeViewModel.HomeState.NavUser -> {
                     showUserDetails(it.user)
                 }
+                is HomeViewModel.HomeState.BoardList ->
+                    showBoards(it.boardList)
+                is HomeViewModel.HomeState.Loading ->
+                    showProgressDialog(it.isLoading)
+                HomeViewModel.HomeState.Error ->
+                    showErrorSnackBar(binding.root, getString(R.string.board_error))
             }
         }
     }
@@ -129,5 +151,25 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun showBoards(boardList: List<Board>) {
+        val rvBoards = findViewById<RecyclerView>(R.id.rv_boards)
+        val tvNoBoards = findViewById<TextView>(R.id.tv_no_boards)
+        rvBoards.isVisible = true
+        tvNoBoards.isVisible = false
+
+        rvBoards.layoutManager = LinearLayoutManager(this@HomeActivity)
+        rvBoards.setHasFixedSize(true)
+
+        val adapter =
+            BoardAdapter(this@HomeActivity, boardList, this@HomeActivity)
+
+        rvBoards.adapter = adapter
+
+    }
+
+    override fun onBoardClicked(board: Board) {
+        Toast.makeText(this, board.name.plus(" Clicked"), Toast.LENGTH_SHORT).show()
     }
 }
