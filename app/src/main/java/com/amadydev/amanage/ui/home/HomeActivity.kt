@@ -42,6 +42,12 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 getUser()
         }
 
+    private val createBoardLauncher =
+        registerForActivityResult(StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == RESULT_OK)
+                getBoards()
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -50,7 +56,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setupObservers()
         getUser()
         setListeners()
-//        getBoards()
     }
 
 
@@ -59,7 +64,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             navView.setNavigationItemSelectedListener(this@HomeActivity)
 
             iNav.fabCreateBoard.setOnClickListener {
-                startActivity(
+                createBoardLauncher.launch(
                     Intent(
                         this@HomeActivity,
                         CreateBoardHomeActivity::class.java

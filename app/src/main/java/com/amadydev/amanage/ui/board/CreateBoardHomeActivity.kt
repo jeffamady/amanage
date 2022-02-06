@@ -85,6 +85,7 @@ class CreateBoardHomeActivity : BaseActivity() {
                     showErrorSnackBar(binding.root, it.message)
                 is Success -> {
                     Toast.makeText(this, it.resourceId, Toast.LENGTH_SHORT).show()
+                    setResult(RESULT_OK)
                     finish()
                 }
                 is IsNameValid ->
