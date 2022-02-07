@@ -63,5 +63,8 @@
 
     <dimen name="home_image_size">80dp</dimen>
 
+    <!--Task-->
+    <dimen name="rv_task_margin">10dp</dimen>
+
 
 </resources>

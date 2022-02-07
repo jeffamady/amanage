@@ -13,4 +13,5 @@
     <color name="secondaryTextColor">#9C9C9C</color>
     <color name="snackbar_error_color">#FF1100</color>
     <color name="colorVariant">#D68267</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>

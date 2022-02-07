@@ -9,5 +9,6 @@ data class Board(
     val image: String = "",
     val createdBy: String = "",
     val assignedTo: ArrayList<String> = ArrayList(),
-    var documentId: String = ""
+    var documentId: String = "",
+    val taskList: ArrayList<Task> = ArrayList()
 ) : Parcelable

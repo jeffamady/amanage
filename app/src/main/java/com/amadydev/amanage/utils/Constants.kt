@@ -15,6 +15,7 @@ object Constants {
     const val USER_IMAGE: String = "user_image"
     const val BOARD_IMAGE: String = "board_image"
     const val READ_STORAGE_IMAGE_PERMISSION_CODE = 1
+    const val DOCUMENT_ID: String = "documentId"
 
 
     fun getFileExtension(activity: Activity, uri: Uri): String? =

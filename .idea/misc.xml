@@ -24,7 +24,9 @@
         <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout/dialog_image_user.xml" value="0.253125" />
         <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout/dialog_progress.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Usuario/Documents/Android GUIDE/amanage/app/src/main/res/layout/nav_header_home.xml" value="0.253125" />
+        <entry key="app/src/main/res/drawable-anydpi/ic_back_white.xml" value="0.122" />
         <entry key="app/src/main/res/drawable/button_rounded.xml" value="0.11041666666666666" />
+        <entry key="app/src/main/res/drawable/custom_task_details_back.xml" value="0.122" />
         <entry key="app/src/main/res/drawable/ic_black_color_back_24dp.xml" value="0.2171875" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2171875" />
         <entry key="app/src/main/res/drawable/ic_nav_user.xml" value="0.2171875" />
@@ -40,6 +42,7 @@
         <entry key="app/src/main/res/layout/activity_my_profile.xml" value="0.14" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.1484375" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1484375" />
+        <entry key="app/src/main/res/layout/activity_task_list.xml" value="0.1693840579710145" />
         <entry key="app/src/main/res/layout/app_bar_home.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/content_home.xml" value="0.3304812834224599" />
         <entry key="app/src/main/res/layout/dialog_progress.xml" value="0.22" />
@@ -47,6 +50,7 @@
         <entry key="app/src/main/res/layout/item_board.xml" value="0.33" />
         <entry key="app/src/main/res/layout/layout_loading.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/nav_header_home.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/task_details_back_custom.xml" value="0.22" />
         <entry key="app/src/main/res/menu/activity_home_drawer.xml" value="0.33" />
       </map>
     </option>

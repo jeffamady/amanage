@@ -9,6 +9,7 @@ import com.amadydev.amanage.ui.home.HomeViewModel
 import com.amadydev.amanage.ui.myprofile.MyProfileViewModel
 import com.amadydev.amanage.ui.signin.SignInViewModel
 import com.amadydev.amanage.ui.signup.SignUpViewModel
+import com.amadydev.amanage.ui.task.TaskListViewModel
 import com.amadydev.amanage.utils.Constants.ASSIGNED_TO
 import com.amadydev.amanage.utils.Constants.BOARDS
 import com.amadydev.amanage.utils.Constants.USERS
@@ -104,8 +105,7 @@ class FirestoreDB @Inject constructor() {
         db.collection(BOARDS)
             .whereArrayContains(ASSIGNED_TO, getCurrentUserId())
             .get()
-            .addOnSuccessListener {
-                    document ->
+            .addOnSuccessListener { document ->
                 val mBoardList = mutableListOf<Board>()
                 val boardList: List<Board> = mBoardList
                 document.documents.forEach {
@@ -115,6 +115,21 @@ class FirestoreDB @Inject constructor() {
                     }
                 }
                 viewModel.updateBoards(boardList)
+            }
+            .addOnFailureListener {
+                viewModel.onFailure()
+            }
+    }
+
+    fun getBoardDetails(viewModel: TaskListViewModel, documentId: String) {
+        db.collection(BOARDS)
+            .document(documentId)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.i(viewModel.javaClass.simpleName, document.toString())
+                document.toObject(Board::class.java)?.let {
+                    viewModel.getBoardDetailsSuccess(it)
+                }
             }
             .addOnFailureListener {
                 viewModel.onFailure()

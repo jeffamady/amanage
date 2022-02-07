@@ -58,6 +58,8 @@
     <string name="created_by">Created by:</string>
     <string name="board_error">Oops! An error occurred. Please try again</string>
 
+    <!--Task List-->
+    <string name="task_error">Oops! An error occurred. Please try again</string>
 
 
 </resources>

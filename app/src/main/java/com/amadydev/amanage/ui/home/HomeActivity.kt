@@ -24,6 +24,8 @@ import com.amadydev.amanage.ui.board.BoardAdapter
 import com.amadydev.amanage.ui.board.CreateBoardHomeActivity
 import com.amadydev.amanage.ui.intro.IntroActivity
 import com.amadydev.amanage.ui.myprofile.MyProfileActivity
+import com.amadydev.amanage.ui.task.TaskListActivity
+import com.amadydev.amanage.utils.Constants.DOCUMENT_ID
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
@@ -175,6 +177,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onBoardClicked(board: Board) {
-        Toast.makeText(this, board.name.plus(" Clicked"), Toast.LENGTH_SHORT).show()
+        Intent(this, TaskListActivity::class.java).apply {
+            putExtra(DOCUMENT_ID, board.documentId)
+        }.run(::startActivity)
     }
 }
