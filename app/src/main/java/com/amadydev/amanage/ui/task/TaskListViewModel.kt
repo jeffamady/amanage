@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.amadydev.amanage.data.firebase.FirestoreDB
 import com.amadydev.amanage.data.model.Board
+import com.amadydev.amanage.data.model.Task
 import com.amadydev.amanage.ui.board.CreateBoardViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.math.BigInteger
@@ -16,6 +17,7 @@ class TaskListViewModel @Inject constructor(private val db: FirestoreDB) : ViewM
     val taskListState: LiveData<TaskListState> = _taskListState
 
     private var mBoardDocumentId = ""
+    private var mAddTaskList = ""
 
     fun getDocumentId(documentId: String) {
         mBoardDocumentId = documentId
@@ -28,7 +30,13 @@ class TaskListViewModel @Inject constructor(private val db: FirestoreDB) : ViewM
 
     fun getBoardDetailsSuccess(board: Board){
         _taskListState.value = TaskListState.Loading(false)
+        val addTaskList = Task(mAddTaskList)
+        board.taskList.add(addTaskList)
         _taskListState.value = TaskListState.Success(board)
+    }
+
+    fun getTaskString(taskString: String) {
+        mAddTaskList = taskString
     }
 
     fun onFailure() {
