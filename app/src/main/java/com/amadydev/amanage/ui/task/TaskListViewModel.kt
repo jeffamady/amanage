@@ -53,7 +53,7 @@ class TaskListViewModel @Inject constructor(private val db: FirestoreDB) : ViewM
     }
 
     fun updateTaskList(position: Int, listName: String, task: Task) {
-        val newTask = Task(listName, task.createdBy)
+        val newTask = Task(listName, task.createdBy, task.cardsList)
 
         mBoard.taskList[position] = newTask
         mBoard.taskList.removeAt(mBoard.taskList.size - 1)

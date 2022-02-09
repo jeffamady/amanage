@@ -6,16 +6,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amadydev.amanage.R
+import com.amadydev.amanage.data.model.Card
 import com.amadydev.amanage.data.model.Task
 import com.amadydev.amanage.databinding.ItemTaskBinding
+import com.amadydev.amanage.ui.card.CardAdapter
 import com.amadydev.amanage.utils.Constants.showToast
 
 class TaskListAdapter(
     private val context: Context,
     private val taskList: List<Task>
-) : RecyclerView.Adapter<TaskListAdapter.TaskViewHolder>() {
+) : RecyclerView.Adapter<TaskListAdapter.TaskViewHolder>(), CardAdapter.OnCardClickListener {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder =
@@ -136,6 +139,18 @@ class TaskListAdapter(
                         showToast(context, context.getString(R.string.card_name_error))
                 }
 
+                //Show cards
+                with(rvCardList) {
+                    layoutManager = LinearLayoutManager(context)
+                    setHasFixedSize(true)
+                    adapter = CardAdapter(
+                        context,
+                        task.cardsList,
+                    this@TaskListAdapter
+                    )
+                }
+
+
             }
         }
 
@@ -144,5 +159,9 @@ class TaskListAdapter(
 
         private fun Int.toPx(): Int =
             (this * Resources.getSystem().displayMetrics.density).toInt()
+    }
+
+    override fun onCardClicked(card: Card) {
+        showToast(context, card.name.plus(" Clicked"))
     }
 }
