@@ -28,8 +28,8 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_task_image"
-            android:contentDescription="@string/image_contentDescription" />
+            android:contentDescription="@string/image_contentDescription"
+            android:src="@drawable/ic_task_image" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -60,6 +60,7 @@
             android:layout_marginStart="@dimen/authentication_screen_marginStartEnd"
             android:layout_marginTop="@dimen/authentication_screen_card_view_marginTop"
             android:layout_marginEnd="@dimen/authentication_screen_marginStartEnd"
+            android:layout_marginBottom="@dimen/authentication_screen_marginStartEnd"
             android:elevation="@dimen/card_view_elevation"
             app:cardCornerRadius="@dimen/card_view_corner_radius">
 
