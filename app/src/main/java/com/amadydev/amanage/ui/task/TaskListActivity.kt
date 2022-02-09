@@ -98,4 +98,7 @@ class TaskListActivity : BaseActivity() {
 
     fun deleteTaskList(position: Int) =
         taskListViewModel.deleteTaskList(position)
+
+    fun createCard(cardName: String, position: Int) =
+        taskListViewModel.createCard(cardName, position)
 }

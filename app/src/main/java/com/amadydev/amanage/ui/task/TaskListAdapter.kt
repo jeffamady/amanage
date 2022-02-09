@@ -5,12 +5,12 @@ import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.amadydev.amanage.R
 import com.amadydev.amanage.data.model.Task
 import com.amadydev.amanage.databinding.ItemTaskBinding
+import com.amadydev.amanage.utils.Constants.showToast
 
 class TaskListAdapter(
     private val context: Context,
@@ -71,6 +71,7 @@ class TaskListAdapter(
                     cvAddTaskListName.isVisible = false
                 }
 
+                // Create Task
                 ibDoneListName.setOnClickListener {
                     val listName = etTaskListName.text.toString()
 
@@ -78,14 +79,8 @@ class TaskListAdapter(
                         if (context is TaskListActivity) {
                             context.createTaskList(listName)
                         }
-                    } else {
-                        Toast.makeText(
-                            context,
-                            context.getString(R.string.list_name_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
+                    } else
+                        showToast(context, context.getString(R.string.list_name_error))
                 }
 
                 ibEditListName.setOnClickListener {
@@ -99,21 +94,18 @@ class TaskListAdapter(
                     cvEditTaskListName.isVisible = false
                 }
 
+                // Edit Task
                 ibDoneEditListName.setOnClickListener {
                     val listName = etEditTaskListName.text.toString()
 
-                    if (listName.isNotEmpty() && listName != task.title) {
-                        if (context is TaskListActivity) {
-                            context.updateTaskList(position, listName, task)
-                        }
-                    } else {
-                        Toast.makeText(
-                            context,
-                            context.getString(R.string.list_name_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
+                    if (listName.isNotEmpty()) {
+                        if (listName != task.title) {
+                            if (context is TaskListActivity)
+                                context.updateTaskList(position, listName, task)
+                        } else
+                            showToast(context, context.getString(R.string.no_new_change))
+                    } else
+                        showToast(context, context.getString(R.string.list_name_error))
                 }
 
                 ibDeleteList.setOnClickListener {
@@ -121,6 +113,27 @@ class TaskListAdapter(
                         context.showDialogForDeleteList(
                             task.title
                         ) { context.deleteTaskList(position) }
+                }
+
+                tvAddCard.setOnClickListener {
+                    tvAddCard.isVisible = false
+                    cvAddCard.isVisible = true
+                }
+
+                ibCloseCardName.setOnClickListener {
+                    tvAddCard.isVisible = true
+                    cvAddCard.isVisible = false
+                }
+
+                // Create Card
+                ibDoneCardName.setOnClickListener {
+                    val cardName = etCardName.text.toString()
+
+                    if (cardName.isNotEmpty()) {
+                        if (context is TaskListActivity)
+                            context.createCard(cardName, position)
+                    } else
+                        showToast(context, context.getString(R.string.card_name_error))
                 }
 
             }

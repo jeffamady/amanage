@@ -70,5 +70,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
+    <!--Card-->
+    <string name="card_name_error">Please enter a valid Card Name</string>
+
 
 </resources>

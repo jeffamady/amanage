@@ -1,8 +1,10 @@
 package com.amadydev.amanage.utils
 
 import android.app.Activity
+import android.content.Context
 import android.net.Uri
 import android.webkit.MimeTypeMap
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 
 object Constants {
@@ -25,5 +27,9 @@ object Constants {
 
     fun showImageChooser(activityResultLauncher: ActivityResultLauncher<String>) =
         activityResultLauncher.launch("image/*")
+
+    fun showToast(context: Context, message: String) =
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+
 
 }

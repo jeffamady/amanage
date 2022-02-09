@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.amadydev.amanage.data.firebase.FirestoreDB
 import com.amadydev.amanage.data.model.Board
+import com.amadydev.amanage.data.model.Card
 import com.amadydev.amanage.data.model.Task
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -61,9 +62,33 @@ class TaskListViewModel @Inject constructor(private val db: FirestoreDB) : ViewM
         db.addUpdateTaskList(this, mBoard)
     }
 
-    fun deleteTaskList(position: Int){
+    fun deleteTaskList(position: Int) {
         mBoard.taskList.removeAt(position)
         mBoard.taskList.removeAt(mBoard.taskList.size - 1)
+
+        _taskListState.value = TaskListState.Loading(true)
+        db.addUpdateTaskList(this, mBoard)
+    }
+
+    // Create Card in Task
+    fun createCard(cardName: String, position: Int) {
+        mBoard.taskList.removeAt(mBoard.taskList.size - 1)
+        val currentUserId = db.getCurrentUserId()
+        val cardAssignedUserList = ArrayList<String>()
+        cardAssignedUserList.add(currentUserId)
+
+        val card = Card(cardName, currentUserId, cardAssignedUserList)
+
+        val cardsList = mBoard.taskList[position].cardsList
+        cardsList.add(card)
+
+        val task = Task(
+            mBoard.taskList[position].title,
+            mBoard.taskList[position].createdBy,
+            cardsList
+        )
+
+        mBoard.taskList[position] = task
 
         _taskListState.value = TaskListState.Loading(true)
         db.addUpdateTaskList(this, mBoard)
