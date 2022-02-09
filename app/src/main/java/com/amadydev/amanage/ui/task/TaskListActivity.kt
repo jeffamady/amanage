@@ -1,24 +1,19 @@
 package com.amadydev.amanage.ui.task
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amadydev.amanage.R
 import com.amadydev.amanage.data.model.Board
-import com.amadydev.amanage.data.model.Task
 import com.amadydev.amanage.databinding.ActivityTaskListBinding
 import com.amadydev.amanage.ui.BaseActivity
-import com.amadydev.amanage.utils.Constants
 import com.amadydev.amanage.utils.Constants.DOCUMENT_ID
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TaskListActivity : BaseActivity(), TaskListAdapter.OnTaskClickListener {
+class TaskListActivity : BaseActivity() {
     private lateinit var binding: ActivityTaskListBinding
     private val taskListViewModel: TaskListViewModel by viewModels()
 
@@ -55,8 +50,7 @@ class TaskListActivity : BaseActivity(), TaskListAdapter.OnTaskClickListener {
 
         val adapter = TaskListAdapter(
             this,
-            board.taskList.toList(),
-            this
+            board.taskList.toList()
         )
 
         binding.rvTaskList.adapter = adapter
@@ -85,12 +79,11 @@ class TaskListActivity : BaseActivity(), TaskListAdapter.OnTaskClickListener {
         }
     }
 
-
-    private fun getTaskString() {
+    private fun getTaskString() =
         taskListViewModel.getTaskString(getString(R.string.action_add_list))
-    }
 
-    override fun onTaskClicked(task: Task) {
-        Toast.makeText(this, task.title.plus(" Clicked"), Toast.LENGTH_SHORT).show()
-    }
+
+    fun createTaskList(taskListName: String) =
+        taskListViewModel.createTaskList(taskListName)
+
 }

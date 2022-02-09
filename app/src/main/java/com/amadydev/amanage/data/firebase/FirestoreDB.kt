@@ -12,6 +12,7 @@ import com.amadydev.amanage.ui.signup.SignUpViewModel
 import com.amadydev.amanage.ui.task.TaskListViewModel
 import com.amadydev.amanage.utils.Constants.ASSIGNED_TO
 import com.amadydev.amanage.utils.Constants.BOARDS
+import com.amadydev.amanage.utils.Constants.TASK_LIST
 import com.amadydev.amanage.utils.Constants.USERS
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.SetOptions
@@ -127,11 +128,29 @@ class FirestoreDB @Inject constructor() {
             .get()
             .addOnSuccessListener { document ->
                 Log.i(viewModel.javaClass.simpleName, document.toString())
-                document.toObject(Board::class.java)?.let {
-                    viewModel.getBoardDetailsSuccess(it)
+                document.toObject(Board::class.java)?.let { board ->
+                    board.documentId = document.id
+                    viewModel.getBoardDetailsSuccess(board)
                 }
             }
             .addOnFailureListener {
+                viewModel.onFailure()
+            }
+    }
+
+    fun addUpdateTaskList(viewModel: TaskListViewModel, board: Board) {
+        val taskListHashMap = HashMap<String, Any>()
+        taskListHashMap[TASK_LIST] = board.taskList
+
+        db.collection(BOARDS)
+            .document(board.documentId)
+            .update(taskListHashMap)
+            .addOnSuccessListener {
+                Log.i(viewModel.javaClass.simpleName, "Task list updated with success")
+
+                viewModel.addUpdateTaskListSuccess()
+            }
+            .addOnFailureListener{
                 viewModel.onFailure()
             }
     }

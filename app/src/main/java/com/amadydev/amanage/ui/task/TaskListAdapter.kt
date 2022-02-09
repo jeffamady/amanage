@@ -5,17 +5,16 @@ import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.core.view.setMargins
 import androidx.recyclerview.widget.RecyclerView
+import com.amadydev.amanage.R
 import com.amadydev.amanage.data.model.Task
 import com.amadydev.amanage.databinding.ItemTaskBinding
 
 class TaskListAdapter(
     private val context: Context,
-    private val taskList: List<Task>,
-    private val onTaskClickListener: OnTaskClickListener
+    private val taskList: List<Task>
 ) : RecyclerView.Adapter<TaskListAdapter.TaskViewHolder>() {
 
 
@@ -35,14 +34,17 @@ class TaskListAdapter(
     override fun getItemCount() =
         taskList.size
 
-    inner class TaskViewHolder(private val binding: ItemTaskBinding, private val parent: ViewGroup) :
+    inner class TaskViewHolder(
+        private val binding: ItemTaskBinding,
+        private val parent: ViewGroup
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun render(position: Int) {
             val task = taskList[position]
             with(binding) {
                 LinearLayout.LayoutParams(
-                    (parent.width * 0.75 ).toInt(),
+                    (parent.width * 0.75).toInt(),
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 ).apply {
                     setMargins(15.toDp().toPx(), 0, 40.toDp().toPx(), 0)
@@ -57,20 +59,42 @@ class TaskListAdapter(
                     llTaskItem.isVisible = true
                 }
 
-                root.setOnClickListener {
-                    onTaskClickListener.onTaskClicked(task)
+                tvTaskListTitle.text = task.title
+
+                tvAddTaskList.setOnClickListener {
+                    tvAddTaskList.isVisible = false
+                    cvAddTaskListName.isVisible = true
                 }
+
+                ibCloseListName.setOnClickListener {
+                    tvAddTaskList.isVisible = true
+                    cvAddTaskListName.isVisible = false
+                }
+
+                ibDoneListName.setOnClickListener {
+                    val listName = etTaskListName.text.toString()
+
+                    if (listName.isNotEmpty()) {
+                        if (context is TaskListActivity) {
+                            context.createTaskList(listName)
+                        }
+                    } else {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.list_name_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                }
+
             }
         }
+
+        private fun Int.toDp(): Int =
+            (this / Resources.getSystem().displayMetrics.density).toInt()
+
+        private fun Int.toPx(): Int =
+            (this * Resources.getSystem().displayMetrics.density).toInt()
     }
-
-    interface OnTaskClickListener {
-        fun onTaskClicked(task: Task)
-    }
-
-    private fun Int.toDp(): Int =
-        (this / Resources.getSystem().displayMetrics.density).toInt()
-
-    private fun Int.toPx(): Int =
-        (this * Resources.getSystem().displayMetrics.density).toInt()
 }

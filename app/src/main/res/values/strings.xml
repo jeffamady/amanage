@@ -64,6 +64,7 @@
     <string name="action_add_card">Add Card</string>
     <string name="hint_list_name">List Name</string>
     <string name="hint_card_name">Card Name</string>
+    <string name="list_name_error">Please enter a List Name</string>
 
 
 </resources>
