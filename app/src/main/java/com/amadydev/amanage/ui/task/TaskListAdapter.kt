@@ -88,6 +88,41 @@ class TaskListAdapter(
 
                 }
 
+                ibEditListName.setOnClickListener {
+                    etEditTaskListName.setText(task.title)
+                    llTitleView.isVisible = false
+                    cvEditTaskListName.isVisible = true
+                }
+
+                ibCloseEditableView.setOnClickListener {
+                    llTitleView.isVisible = true
+                    cvEditTaskListName.isVisible = false
+                }
+
+                ibDoneEditListName.setOnClickListener {
+                    val listName = etEditTaskListName.text.toString()
+
+                    if (listName.isNotEmpty() && listName != task.title) {
+                        if (context is TaskListActivity) {
+                            context.updateTaskList(position, listName, task)
+                        }
+                    } else {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.list_name_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                }
+
+                ibDeleteList.setOnClickListener {
+                    if (context is TaskListActivity)
+                        context.showDialogForDeleteList(
+                            task.title
+                        ) { context.deleteTaskList(position) }
+                }
+
             }
         }
 

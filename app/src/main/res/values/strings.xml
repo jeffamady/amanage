@@ -64,7 +64,11 @@
     <string name="action_add_card">Add Card</string>
     <string name="hint_list_name">List Name</string>
     <string name="hint_card_name">Card Name</string>
-    <string name="list_name_error">Please enter a List Name</string>
+    <string name="list_name_error">Please enter a valid List Name</string>
+    <string name="alert">Alert</string>
+    <string name="are_you_sure">Are you sure you want to delete</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 
 </resources>

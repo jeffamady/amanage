@@ -19,14 +19,24 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             app:popupTheme="@style/Theme.PopupOverlay"
-            app:titleTextColor="@color/white" />
+            app:titleTextColor="@color/white">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_toolbar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="20dp"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="@dimen/nav_image_circle_border" />
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_task_list"
-        android:layout_margin="@dimen/rv_task_margin"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="@dimen/rv_task_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

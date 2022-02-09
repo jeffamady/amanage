@@ -2,14 +2,14 @@ package com.amadydev.amanage.ui.task
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amadydev.amanage.R
 import com.amadydev.amanage.data.model.Board
+import com.amadydev.amanage.data.model.Task
 import com.amadydev.amanage.databinding.ActivityTaskListBinding
 import com.amadydev.amanage.ui.BaseActivity
 import com.amadydev.amanage.utils.Constants.DOCUMENT_ID
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,7 +43,7 @@ class TaskListActivity : BaseActivity() {
     }
 
     private fun setupUI(board: Board) {
-        setupActionBar(board.name)
+        setupActionBar(board.name, board.image)
         binding.rvTaskList.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvTaskList.setHasFixedSize(true)
@@ -66,8 +66,8 @@ class TaskListActivity : BaseActivity() {
         }
     }
 
-    private fun setupActionBar(title: String) {
-        with(binding.appBarLayout[0] as Toolbar) {
+    private fun setupActionBar(title: String, image: String) {
+        with(binding.toolbar) {
             setSupportActionBar(this)
             val actionBar = supportActionBar
             if (actionBar != null) {
@@ -75,6 +75,13 @@ class TaskListActivity : BaseActivity() {
                 actionBar.setHomeAsUpIndicator(R.drawable.ic_white_color_back_24dp)
                 actionBar.title = title
             }
+
+            Glide.with(this)
+                .load(image)
+                .error(R.drawable.ic_task_image)
+                .centerCrop()
+                .into(binding.ivToolbar)
+
             setNavigationOnClickListener { onBackPressed() }
         }
     }
@@ -86,4 +93,9 @@ class TaskListActivity : BaseActivity() {
     fun createTaskList(taskListName: String) =
         taskListViewModel.createTaskList(taskListName)
 
+    fun updateTaskList(position: Int, listName: String, task: Task) =
+        taskListViewModel.updateTaskList(position, listName, task)
+
+    fun deleteTaskList(position: Int) =
+        taskListViewModel.deleteTaskList(position)
 }

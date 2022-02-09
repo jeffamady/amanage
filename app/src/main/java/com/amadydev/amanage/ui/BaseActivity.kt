@@ -1,5 +1,6 @@
 package com.amadydev.amanage.ui
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Handler
 import android.os.Looper
@@ -69,5 +70,26 @@ open class BaseActivity : AppCompatActivity() {
         super.onDestroy()
         mProgressDialog?.dismiss()
         mProgressDialog = null
+    }
+
+    fun showDialogForDeleteList(title: String, delete: () -> Unit) {
+        AlertDialog.Builder(this).apply {
+            setTitle(getString(R.string.alert))
+            setMessage(getString(R.string.are_you_sure).plus(" $title."))
+            setIcon(R.drawable.ic_delete)
+
+            setPositiveButton(getString(R.string.yes)) { dialogInterface, _ ->
+                dialogInterface.dismiss()
+                delete()
+            }
+
+            setNegativeButton(getString(R.string.no)) { dialogInterface, _ ->
+                dialogInterface.dismiss()
+            }
+
+            create()
+            setCancelable(false)
+            show()
+        }
     }
 }
