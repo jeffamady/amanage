@@ -73,5 +73,8 @@
     <!--Card-->
     <string name="card_name_error">Please enter a valid Card Name</string>
 
+    <!--Members-->
+    <string name="members">Members</string>
+
 
 </resources>

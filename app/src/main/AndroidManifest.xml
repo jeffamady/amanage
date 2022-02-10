@@ -15,8 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Amanage">
         <activity
-            android:name=".ui.task.TaskListActivity"
+            android:name=".ui.members.MembersActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.task.TaskListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.board.CreateBoardHomeActivity"
             android:exported="false"

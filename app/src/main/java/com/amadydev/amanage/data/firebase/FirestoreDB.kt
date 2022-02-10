@@ -6,12 +6,14 @@ import com.amadydev.amanage.data.model.Board
 import com.amadydev.amanage.data.model.User
 import com.amadydev.amanage.ui.board.CreateBoardViewModel
 import com.amadydev.amanage.ui.home.HomeViewModel
+import com.amadydev.amanage.ui.members.MembersViewModel
 import com.amadydev.amanage.ui.myprofile.MyProfileViewModel
 import com.amadydev.amanage.ui.signin.SignInViewModel
 import com.amadydev.amanage.ui.signup.SignUpViewModel
 import com.amadydev.amanage.ui.task.TaskListViewModel
 import com.amadydev.amanage.utils.Constants.ASSIGNED_TO
 import com.amadydev.amanage.utils.Constants.BOARDS
+import com.amadydev.amanage.utils.Constants.ID
 import com.amadydev.amanage.utils.Constants.TASK_LIST
 import com.amadydev.amanage.utils.Constants.USERS
 import com.google.firebase.auth.ktx.auth
@@ -150,7 +152,28 @@ class FirestoreDB @Inject constructor() {
 
                 viewModel.addUpdateTaskListSuccess()
             }
-            .addOnFailureListener{
+            .addOnFailureListener {
+                viewModel.onFailure()
+            }
+    }
+
+    fun getAssignedMembersList(
+        viewModel: MembersViewModel, assignedTo: ArrayList<String>
+    ) {
+        db.collection(USERS)
+            .whereIn(ID, assignedTo)
+            .get()
+            .addOnSuccessListener {document ->
+                val mUsersList = mutableListOf<User>()
+                val usersList: List<User> = mUsersList
+                document.documents.forEach {
+                    it.toObject(User::class.java)?.let { user ->
+                        mUsersList.add(user)
+                    }
+                }
+                viewModel.onGetAssignedMembersListSuccess(usersList)
+            }
+            .addOnFailureListener {
                 viewModel.onFailure()
             }
     }

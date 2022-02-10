@@ -39,6 +39,7 @@
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/activity_intro.xml" value="0.3393782383419689" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1484375" />
+        <entry key="app/src/main/res/layout/activity_members_main.xml" value="0.1693840579710145" />
         <entry key="app/src/main/res/layout/activity_my_profile.xml" value="0.14" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.1484375" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1484375" />
@@ -49,11 +50,13 @@
         <entry key="app/src/main/res/layout/fragment_my_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_board.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_card.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_member.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/item_task.xml" value="0.21" />
         <entry key="app/src/main/res/layout/layout_loading.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/nav_header_home.xml" value="0.33" />
         <entry key="app/src/main/res/layout/task_details_back_custom.xml" value="0.22" />
         <entry key="app/src/main/res/menu/activity_home_drawer.xml" value="0.33" />
+        <entry key="app/src/main/res/menu/menu_members.xml" value="0.20104166666666667" />
       </map>
     </option>
   </component>

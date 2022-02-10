@@ -19,6 +19,8 @@ object Constants {
     const val READ_STORAGE_IMAGE_PERMISSION_CODE = 1
     const val DOCUMENT_ID: String = "documentId"
     const val TASK_LIST: String = "taskList"
+    const val BOARD_DETAILS: String = "boardDetails"
+    const val ID: String = "id"
 
 
     fun getFileExtension(activity: Activity, uri: Uri): String? =

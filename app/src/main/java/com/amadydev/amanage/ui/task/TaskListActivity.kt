@@ -1,6 +1,9 @@
 package com.amadydev.amanage.ui.task
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amadydev.amanage.R
@@ -8,6 +11,8 @@ import com.amadydev.amanage.data.model.Board
 import com.amadydev.amanage.data.model.Task
 import com.amadydev.amanage.databinding.ActivityTaskListBinding
 import com.amadydev.amanage.ui.BaseActivity
+import com.amadydev.amanage.ui.members.MembersActivity
+import com.amadydev.amanage.utils.Constants.BOARD_DETAILS
 import com.amadydev.amanage.utils.Constants.DOCUMENT_ID
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class TaskListActivity : BaseActivity() {
     private lateinit var binding: ActivityTaskListBinding
     private val taskListViewModel: TaskListViewModel by viewModels()
+
+    private lateinit var mBoard: Board
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +41,7 @@ class TaskListActivity : BaseActivity() {
                 is TaskListViewModel.TaskListState.Loading ->
                     showProgressDialog(it.isLoading)
                 is TaskListViewModel.TaskListState.Success -> {
+                    mBoard = it.board
                     setupUI(it.board)
                 }
                 TaskListViewModel.TaskListState.Error ->
@@ -101,4 +109,20 @@ class TaskListActivity : BaseActivity() {
 
     fun createCard(cardName: String, position: Int) =
         taskListViewModel.createCard(cardName, position)
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_members, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_members ->
+                Intent(this, MembersActivity::class.java).apply {
+                    putExtra(BOARD_DETAILS, mBoard)
+                }.also(::startActivity)
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
 }
