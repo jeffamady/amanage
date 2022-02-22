@@ -15,7 +15,7 @@ class MembersViewModel @Inject constructor(private val db: FirestoreDB) : ViewMo
     val membersState: LiveData<MembersState> = _membersState
 
     private lateinit var mBoard: Board
-    private  var mAssignedMembersList = mutableListOf<User>()
+    private var mAssignedMembersList = mutableListOf<User>()
 
     fun getBoardDetailsAngAssignedMembersList(board: Board) {
         _membersState.value = MembersState.Loading(true)
@@ -30,6 +30,7 @@ class MembersViewModel @Inject constructor(private val db: FirestoreDB) : ViewMo
         _membersState.value = MembersState.Users(usersList)
         usersList.forEach(mAssignedMembersList::add)
     }
+
     fun onFailure() {
         _membersState.value = MembersState.Loading(false)
         _membersState.value = MembersState.Error
@@ -42,17 +43,18 @@ class MembersViewModel @Inject constructor(private val db: FirestoreDB) : ViewMo
         db.assignMemberToBoard(this, mBoard, user)
     }
 
-    fun getMemberDetails(email: String){
+    fun getMemberDetails(email: String) {
         _membersState.value = MembersState.Loading(true)
         db.getMemberDetails(this, email)
     }
 
-    fun memberAssignSuccess(user: User){
+    fun memberAssignSuccess(user: User) {
         _membersState.value = MembersState.Loading(false)
         mAssignedMembersList.add(user)
         mAssignedMembersList.let {
             val userList: List<User> = it
             _membersState.value = MembersState.Users(userList)
+            _membersState.value = MembersState.AnyChangesMade
         }
     }
 
@@ -60,6 +62,7 @@ class MembersViewModel @Inject constructor(private val db: FirestoreDB) : ViewMo
         data class Success(val board: Board) : MembersState()
         data class Users(val usersList: List<User>) : MembersState()
         data class Loading(val isLoading: Boolean) : MembersState()
+        object AnyChangesMade : MembersState()
         object Error : MembersState()
     }
 }

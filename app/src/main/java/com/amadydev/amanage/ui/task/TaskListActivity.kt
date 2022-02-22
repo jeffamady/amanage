@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amadydev.amanage.R
@@ -21,6 +22,11 @@ import dagger.hilt.android.AndroidEntryPoint
 class TaskListActivity : BaseActivity() {
     private lateinit var binding: ActivityTaskListBinding
     private val taskListViewModel: TaskListViewModel by viewModels()
+    private val addMemberLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == RESULT_OK)
+                getBoardDetails()
+        }
 
     private lateinit var mBoard: Board
 
@@ -120,7 +126,7 @@ class TaskListActivity : BaseActivity() {
             R.id.action_members ->
                 Intent(this, MembersActivity::class.java).apply {
                     putExtra(BOARD_DETAILS, mBoard)
-                }.also(::startActivity)
+                }.also(addMemberLauncher::launch)
         }
 
         return super.onOptionsItemSelected(item)

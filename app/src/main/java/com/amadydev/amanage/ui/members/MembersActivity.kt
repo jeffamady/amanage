@@ -20,6 +20,8 @@ class MembersActivity : BaseActivity(), MembersAdapter.OnMemberClickListener {
     private lateinit var binding: ActivityMembersBinding
     private val membersViewModel: MembersViewModel by viewModels()
 
+    private var anyChangesMade = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMembersBinding.inflate(layoutInflater)
@@ -40,6 +42,8 @@ class MembersActivity : BaseActivity(), MembersAdapter.OnMemberClickListener {
                     setupMembersList(it.usersList)
                 MembersViewModel.MembersState.Error ->
                     showErrorSnackBar(binding.root, getString(R.string.sorry))
+                MembersViewModel.MembersState.AnyChangesMade ->
+                    anyChangesMade = true
             }
         }
     }
@@ -103,5 +107,11 @@ class MembersActivity : BaseActivity(), MembersAdapter.OnMemberClickListener {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        if (anyChangesMade)
+            setResult(RESULT_OK)
+        super.onBackPressed()
     }
 }
