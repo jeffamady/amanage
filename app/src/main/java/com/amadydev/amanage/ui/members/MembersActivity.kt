@@ -1,6 +1,8 @@
 package com.amadydev.amanage.ui.members
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amadydev.amanage.R
@@ -85,5 +87,21 @@ class MembersActivity : BaseActivity(), MembersAdapter.OnMemberClickListener {
 
     override fun onMemberClicked(user: User) {
         showToast(this, user.name.plus(" Clicked"))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_add_members, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_add_member -> {
+                dialogAddMember(membersViewModel::getMemberDetails)
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }

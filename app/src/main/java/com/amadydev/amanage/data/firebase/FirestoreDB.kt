@@ -13,6 +13,7 @@ import com.amadydev.amanage.ui.signup.SignUpViewModel
 import com.amadydev.amanage.ui.task.TaskListViewModel
 import com.amadydev.amanage.utils.Constants.ASSIGNED_TO
 import com.amadydev.amanage.utils.Constants.BOARDS
+import com.amadydev.amanage.utils.Constants.EMAIL
 import com.amadydev.amanage.utils.Constants.ID
 import com.amadydev.amanage.utils.Constants.TASK_LIST
 import com.amadydev.amanage.utils.Constants.USERS
@@ -163,7 +164,7 @@ class FirestoreDB @Inject constructor() {
         db.collection(USERS)
             .whereIn(ID, assignedTo)
             .get()
-            .addOnSuccessListener {document ->
+            .addOnSuccessListener { document ->
                 val mUsersList = mutableListOf<User>()
                 val usersList: List<User> = mUsersList
                 document.documents.forEach {
@@ -172,6 +173,42 @@ class FirestoreDB @Inject constructor() {
                     }
                 }
                 viewModel.onGetAssignedMembersListSuccess(usersList)
+            }
+            .addOnFailureListener {
+                viewModel.onFailure()
+            }
+    }
+
+    fun getMemberDetails(
+        viewModel: MembersViewModel, email: String
+    ) {
+        db.collection(USERS)
+            .whereEqualTo(EMAIL, email)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.documents.size > 0) {
+                    document.documents[0].toObject(User::class.java)?.let { user ->
+                        viewModel.memberDetails(user)
+                    }
+                } else {
+                    viewModel.onFailure()
+                }
+            }
+            .addOnFailureListener {
+                viewModel.onFailure()
+            }
+    }
+
+    fun assignMemberToBoard(
+        viewModel: MembersViewModel, board: Board, user: User
+    ) {
+        val assignedToHashMap = HashMap<String, Any>()
+        assignedToHashMap[ASSIGNED_TO] = board.assignedTo
+        db.collection(BOARDS)
+            .document(board.documentId)
+            .update(assignedToHashMap)
+            .addOnSuccessListener {
+                viewModel.memberAssignSuccess(user)
             }
             .addOnFailureListener {
                 viewModel.onFailure()

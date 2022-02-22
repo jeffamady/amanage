@@ -14,9 +14,13 @@ class MembersViewModel @Inject constructor(private val db: FirestoreDB) : ViewMo
     private val _membersState = MutableLiveData<MembersState>()
     val membersState: LiveData<MembersState> = _membersState
 
+    private lateinit var mBoard: Board
+    private  var mAssignedMembersList = mutableListOf<User>()
+
     fun getBoardDetailsAngAssignedMembersList(board: Board) {
         _membersState.value = MembersState.Loading(true)
         _membersState.value = MembersState.Success(board)
+        mBoard = board
         // Call to Firebase DB
         db.getAssignedMembersList(this, board.assignedTo)
     }
@@ -24,11 +28,32 @@ class MembersViewModel @Inject constructor(private val db: FirestoreDB) : ViewMo
     fun onGetAssignedMembersListSuccess(usersList: List<User>) {
         _membersState.value = MembersState.Loading(false)
         _membersState.value = MembersState.Users(usersList)
+        usersList.forEach(mAssignedMembersList::add)
     }
-
     fun onFailure() {
         _membersState.value = MembersState.Loading(false)
         _membersState.value = MembersState.Error
+    }
+
+    fun memberDetails(user: User) {
+        _membersState.value = MembersState.Loading(false)
+        mBoard.assignedTo.add(user.id)
+        _membersState.value = MembersState.Loading(true)
+        db.assignMemberToBoard(this, mBoard, user)
+    }
+
+    fun getMemberDetails(email: String){
+        _membersState.value = MembersState.Loading(true)
+        db.getMemberDetails(this, email)
+    }
+
+    fun memberAssignSuccess(user: User){
+        _membersState.value = MembersState.Loading(false)
+        mAssignedMembersList.add(user)
+        mAssignedMembersList.let {
+            val userList: List<User> = it
+            _membersState.value = MembersState.Users(userList)
+        }
     }
 
     sealed class MembersState {

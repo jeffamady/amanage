@@ -75,6 +75,9 @@
 
     <!--Members-->
     <string name="members">Members</string>
+    <string name="add_member">Add Member</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">ADD</string>
 
 
 </resources>

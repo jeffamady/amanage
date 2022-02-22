@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -89,6 +90,27 @@ open class BaseActivity : AppCompatActivity() {
 
             create()
             setCancelable(false)
+            show()
+        }
+    }
+
+    fun dialogAddMember(getMemberDetails: (String) -> Unit) {
+        Dialog(this).apply {
+            setContentView(R.layout.dialog_add_member)
+            findViewById<TextView>(R.id.tv_add).setOnClickListener {
+                val email = findViewById<EditText>(R.id.et_email_add_member).text.toString()
+                if (email.isNotEmpty()) {
+                    getMemberDetails(email)
+                    dismiss()
+                } else {
+                    showErrorSnackBar(it, getString(R.string.invalid_email))
+                }
+            }
+
+            findViewById<TextView>(R.id.tv_cancel).setOnClickListener {
+                dismiss()
+            }
+
             show()
         }
     }
